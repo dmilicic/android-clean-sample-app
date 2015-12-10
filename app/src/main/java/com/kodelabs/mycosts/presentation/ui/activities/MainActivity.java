@@ -1,4 +1,4 @@
-package com.kodelabs.mycosts.presentation.activities;
+package com.kodelabs.mycosts.presentation.ui.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

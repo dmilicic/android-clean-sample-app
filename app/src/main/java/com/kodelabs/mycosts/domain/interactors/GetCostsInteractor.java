@@ -1,0 +1,19 @@
+package com.kodelabs.mycosts.domain.interactors;
+
+import com.kodelabs.mycosts.domain.model.Cost;
+
+import java.util.List;
+
+/**
+ * Created by dmilicic on 12/10/15.
+ * <p/>
+ * This interactor is responsible for retrieving a list of costs from the database.
+ */
+public interface GetCostsInteractor {
+
+    interface Callback {
+        void onCostsRetrieved(List<Cost> costList);
+    }
+
+    void execute(final Callback callback);
+}
