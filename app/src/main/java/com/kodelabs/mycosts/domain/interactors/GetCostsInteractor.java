@@ -15,5 +15,4 @@ public interface GetCostsInteractor {
         void onCostsRetrieved(List<Cost> costList);
     }
 
-    void execute(final Callback callback);
 }

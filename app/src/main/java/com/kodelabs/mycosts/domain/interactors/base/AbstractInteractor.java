@@ -1,7 +1,7 @@
 package com.kodelabs.mycosts.domain.interactors.base;
 
-import com.kodelabs.mycosts.domain.executor.Executor;
-import com.kodelabs.mycosts.domain.executor.MainThread;
+import com.kodelabs.mycosts.domain.interactors.executor.Executor;
+import com.kodelabs.mycosts.domain.interactors.executor.MainThread;
 
 /**
  * Created by dmilicic on 8/4/15.
@@ -13,7 +13,7 @@ import com.kodelabs.mycosts.domain.executor.MainThread;
  * For example, when an activity is getting destroyed then we should probably cancel an interactor
  * but the request will come from the UI thread unless the request was specifically assigned to a background thread.
  */
-public abstract class AbstractInteractor implements Interactor {
+public abstract class AbstractInteractor {
 
     protected Executor   mThreadExecutor;
     protected MainThread mMainThread;
@@ -26,23 +26,29 @@ public abstract class AbstractInteractor implements Interactor {
         mMainThread = mainThread;
     }
 
-    @Override
-    public abstract void run();
+    protected abstract void run();
 
-    @Override
     public void cancel() {
         mIsCanceled = true;
         mIsRunning = false;
     }
 
-    @Override
     public boolean isRunning() {
         return mIsRunning;
     }
 
-    @Override
     public void onFinished() {
         mIsRunning = false;
         mIsCanceled = false;
     }
+
+    public void execute() {
+
+        // mark this interactor as running
+        this.mIsRunning = true;
+
+        // start running this interactor in a background thread
+        mThreadExecutor.execute(this);
+    }
+
 }

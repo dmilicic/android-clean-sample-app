@@ -1,4 +1,4 @@
-package com.kodelabs.mycosts.domain.executor;
+package com.kodelabs.mycosts.domain.interactors.executor;
 
 /**
  * This interface will define a class that will enable interactors to run certain operations on the main (UI) thread. For example,

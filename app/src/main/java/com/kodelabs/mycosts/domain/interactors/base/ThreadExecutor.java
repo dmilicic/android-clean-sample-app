@@ -1,7 +1,6 @@
-package com.kodelabs.mycosts.domain.executor.impl;
+package com.kodelabs.mycosts.domain.interactors.base;
 
-import com.kodelabs.mycosts.domain.executor.Executor;
-import com.kodelabs.mycosts.domain.interactors.base.Interactor;
+import com.kodelabs.mycosts.domain.interactors.executor.Executor;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -37,7 +36,7 @@ public class ThreadExecutor implements Executor {
     }
 
     @Override
-    public void execute(final Interactor interactor) {
+    public void execute(final AbstractInteractor interactor) {
         mThreadPoolExecutor.submit(new Runnable() {
             @Override
             public void run() {

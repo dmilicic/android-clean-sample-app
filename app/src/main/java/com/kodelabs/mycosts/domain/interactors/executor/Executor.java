@@ -1,6 +1,6 @@
-package com.kodelabs.mycosts.domain.executor;
+package com.kodelabs.mycosts.domain.interactors.executor;
 
-import com.kodelabs.mycosts.domain.interactors.base.Interactor;
+import com.kodelabs.mycosts.domain.interactors.base.AbstractInteractor;
 
 /**
  * This executor is responsible for running interactors on background threads.
@@ -15,5 +15,5 @@ public interface Executor {
      *
      * @param interactor The interactor to run.
      */
-    void execute(final Interactor interactor);
+    void execute(final AbstractInteractor interactor);
 }
