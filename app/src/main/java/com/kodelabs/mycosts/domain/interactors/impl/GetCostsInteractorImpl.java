@@ -1,9 +1,9 @@
 package com.kodelabs.mycosts.domain.interactors.impl;
 
-import com.kodelabs.mycosts.domain.interactors.GetCostsInteractor;
-import com.kodelabs.mycosts.domain.interactors.base.AbstractInteractor;
 import com.kodelabs.mycosts.domain.executor.Executor;
 import com.kodelabs.mycosts.domain.executor.MainThread;
+import com.kodelabs.mycosts.domain.interactors.GetCostsInteractor;
+import com.kodelabs.mycosts.domain.interactors.base.AbstractInteractor;
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.domain.repository.CostRepository;
 
