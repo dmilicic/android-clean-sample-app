@@ -1,7 +1,7 @@
 package com.kodelabs.mycosts.domain.interactors.base;
 
-import com.kodelabs.mycosts.domain.interactors.executor.Executor;
-import com.kodelabs.mycosts.domain.interactors.executor.MainThread;
+import com.kodelabs.mycosts.domain.executor.Executor;
+import com.kodelabs.mycosts.domain.executor.MainThread;
 
 /**
  * Created by dmilicic on 8/4/15.

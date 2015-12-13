@@ -1,13 +1,16 @@
 package com.kodelabs.mycosts.domain.repository;
 
+import com.kodelabs.mycosts.domain.model.Cost;
+
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by dmilicic on 12/13/15.
  */
 public interface CostRepository {
 
-    void getCostsByDate(Date date);
+    List<Cost> getCostsByDate(Date date);
 
-    void getCostsInRange(Date startDate, Date endDate);
+    List<Cost> getCostsInRange(Date startDate, Date endDate);
 }

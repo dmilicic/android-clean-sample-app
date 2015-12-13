@@ -1,4 +1,4 @@
-package com.kodelabs.mycosts.domain.interactors.executor;
+package com.kodelabs.mycosts.domain.executor;
 
 import com.kodelabs.mycosts.domain.interactors.base.AbstractInteractor;
 
