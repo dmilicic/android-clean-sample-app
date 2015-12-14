@@ -29,7 +29,6 @@ dependencies {
     compile 'com.jakewharton.timber:timber:4.1.0'
 
     // material design
-    compile 'com.android.support:design:23.1.1'
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
 
