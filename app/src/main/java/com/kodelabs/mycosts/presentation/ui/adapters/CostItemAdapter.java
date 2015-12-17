@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.model.Cost;
+import com.kodelabs.mycosts.utils.DateUtils;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Cost> mCostList;
+    private Context    mContext;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -36,9 +38,9 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-
-    public CostItemAdapter(List<Cost> costList) {
+    public CostItemAdapter(List<Cost> costList, Context context) {
         mCostList = costList;
+        mContext = context;
     }
 
     @Override
@@ -55,7 +57,10 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         Cost cost = mCostList.get(position);
         ViewHolder holder = (ViewHolder) viewHolder;
 
-        holder.mTitle.setText("Today's total expenses");
+        final String title = String.format(mContext.getString(R.string.total_expenses),
+                DateUtils.dateToText(mContext, cost.getDate()));
+
+        holder.mTitle.setText(title);
         holder.mTotalCost.setText(String.valueOf(cost.getAmount()));
     }
 

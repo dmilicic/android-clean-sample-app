@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">My Costs</string>
     <string name="action_settings">Settings</string>
+    <string name="today_s">Today\'s</string>
+    <string name="yesterday_s">Yesterday\'s</string>
+    <string name="total_expenses">%1$s total expenses</string>
 </resources>

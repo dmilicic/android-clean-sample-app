@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     @Override
     public void showCosts(List<Cost> costs) {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(new CostItemAdapter(costs));
+        mRecyclerView.setAdapter(new CostItemAdapter(costs, this));
     }
 
     @Override
