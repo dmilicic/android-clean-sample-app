@@ -1,8 +1,8 @@
 package com.kodelabs.mycosts.presentation.ui.activities;
 
+import android.animation.Animator;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 
 import com.kodelabs.mycosts.MainThreadImpl;
 import com.kodelabs.mycosts.R;
@@ -23,13 +24,22 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.codetail.widget.RevealFrameLayout;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements MainPresenter.View {
 
     @Bind(R.id.expenses_list)
     RecyclerView mRecyclerView;
 
+    @Bind(R.id.reveal_layout)
+    RevealFrameLayout mRevealLayout;
+
+//    @Bind(R.id.reveal_view)
+//    RecyclerView mRevealView;
+
     private MainPresenter mMainPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +51,52 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                enterReveal();
             }
         });
 
         mMainPresenter = new MainPresenterImpl(ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(), this);
+    }
+
+
+    private void enterReveal() {
+        Timber.d("FAB clicked!");
+
+        // get the center for the clipping circle
+        int cx = mRecyclerView.getWidth() / 2;
+        int cy = mRecyclerView.getHeight() / 2;
+
+
+        // get the final radius for the clipping circle
+        int finalRadius = Math.max(mRecyclerView.getWidth(), mRecyclerView.getHeight());
+
+        Timber.w(String.valueOf(cx) + " " + String.valueOf(cy) + " " + String.valueOf(finalRadius));
+
+        // create the animator for this view (the start radius is zero)
+//                SupportAnimator anim =
+//                        io.codetail.animation.ViewAnimationUtils.createCircularReveal(mRevealView, cx, cy, 0, finalRadius);
+
+        Animator anim =
+                ViewAnimationUtils.createCircularReveal(mRecyclerView, cx, cy, 0, finalRadius);
+
+        // make the view visible and start the animation
+        mRevealLayout.setVisibility(View.VISIBLE);
+        mRecyclerView.setVisibility(View.VISIBLE);
+
+//                anim.setInterpolator(new AccelerateDecelerateInterpolator());
+        anim.setDuration(1500);
+        anim.start();
+
+
+        // TODO SKUZI ZASTO OVO FAKING NE RADI
+
+        Timber.d(String.valueOf(anim.isRunning()));
+
     }
 
     @Override
@@ -77,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            enterReveal();
             return true;
         }
 

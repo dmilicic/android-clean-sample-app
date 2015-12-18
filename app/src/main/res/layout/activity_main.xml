@@ -12,13 +12,27 @@
         android:background="?attr/colorPrimary"
         android:theme="@style/AppTheme.AppBarOverlay" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/expenses_list"
+    <!-- This layout will be revealed when FAB is clicked -->
+    <io.codetail.widget.RevealFrameLayout
+        android:id="@+id/reveal_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+        <!--<View-->
+        <!--android:id="@+id/reveal_view"-->
+        <!--android:layout_height="match_parent" />-->
+        <!--android:layout_width="match_parent"-->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/expenses_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?attr/actionBarSize">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+    </io.codetail.widget.RevealFrameLayout>
 
 
     <android.support.design.widget.FloatingActionButton
