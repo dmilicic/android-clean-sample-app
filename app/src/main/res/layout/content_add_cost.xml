@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    android:visibility="visible">
+    android:visibility="invisible">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Enter date" />
+            android:hint="Enter date"
+            android:padding="16dp" />
 
 
         <EditText
@@ -27,12 +28,14 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="0.00"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:padding="16dp" />
 
         <Spinner
             android:id="@+id/input_cost_category"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="16dp" />
 
 
         <EditText
@@ -40,8 +43,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Description"
-            android:inputType="text" />
+            android:hint="Enter description"
+            android:inputType="text"
+            android:padding="16dp" />
 
     </LinearLayout>
 

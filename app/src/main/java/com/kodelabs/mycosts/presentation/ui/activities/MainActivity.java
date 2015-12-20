@@ -119,13 +119,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
             }
         });
         anim.start();
-
-//        mFab.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                startActivity(intent);
-//            }
-//        }, 1500);
     }
 
     @Override

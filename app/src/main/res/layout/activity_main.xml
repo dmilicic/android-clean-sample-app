@@ -20,8 +20,6 @@
 
     </android.support.v7.widget.RecyclerView>
 
-    <!-- This layout will be revealed when FAB is clicked -->
-
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -31,6 +29,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_input_add" />
 
+    <!-- This layout will be revealed when FAB is clicked -->
     <include
         layout="@layout/content_add_cost"
         android:layout_width="match_parent"

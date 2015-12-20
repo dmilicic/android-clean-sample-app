@@ -4,7 +4,9 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.kodelabs.mycosts.R;
@@ -14,6 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.codetail.widget.RevealFrameLayout;
+import timber.log.Timber;
 
 public class AddCostActivity extends AppCompatActivity {
 
@@ -32,9 +35,27 @@ public class AddCostActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_cost);
         ButterKnife.bind(this);
 
+        Timber.w("ON CREATE ADDCOST");
+
+        mToolbar.setNavigationIcon(android.R.drawable.ic_menu_close_clear_cancel);
         setSupportActionBar(mToolbar);
+        mToolbar.setNavigationOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Timber.w("BACK PRESSED");
+                onBackPressed();
+            }
+        });
+
 
         mRevealLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Timber.w("ON RESUME ADDCOST");
     }
 
     @OnClick(R.id.input_date)
@@ -43,4 +64,10 @@ public class AddCostActivity extends AppCompatActivity {
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_add_cost, menu);
+        return true;
+    }
 }
