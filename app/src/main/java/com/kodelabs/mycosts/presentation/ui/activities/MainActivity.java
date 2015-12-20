@@ -1,6 +1,8 @@
 package com.kodelabs.mycosts.presentation.ui.activities;
 
 import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -35,8 +37,8 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     @Bind(R.id.reveal_layout)
     RevealFrameLayout mRevealLayout;
 
-//    @Bind(R.id.reveal_view)
-//    RecyclerView mRevealView;
+    @Bind(R.id.fab)
+    FloatingActionButton mFab;
 
     private MainPresenter mMainPresenter;
 
@@ -47,12 +49,14 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        Timber.w("ONCREATE");
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 enterReveal();
@@ -68,12 +72,14 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         Timber.d("FAB clicked!");
 
         // get the center for the clipping circle
-        int cx = mRecyclerView.getWidth() / 2;
-        int cy = mRecyclerView.getHeight() / 2;
-
+        int cx = (mFab.getLeft() + mFab.getRight()) / 2;
+        int cy = (mFab.getTop() + mFab.getBottom()) / 2;
 
         // get the final radius for the clipping circle
-        int finalRadius = Math.max(mRecyclerView.getWidth(), mRecyclerView.getHeight());
+        int finalRadius = (int) Math.sqrt(Math.pow(cx, 2) + Math.pow(cy, 2)); // hypotenuse to top left
+
+        // intent to start another activity
+        final Intent intent = new Intent(MainActivity.this, AddCostActivity.class);
 
         Timber.w(String.valueOf(cx) + " " + String.valueOf(cy) + " " + String.valueOf(finalRadius));
 
@@ -82,27 +88,52 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 //                        io.codetail.animation.ViewAnimationUtils.createCircularReveal(mRevealView, cx, cy, 0, finalRadius);
 
         Animator anim =
-                ViewAnimationUtils.createCircularReveal(mRecyclerView, cx, cy, 0, finalRadius);
+                ViewAnimationUtils.createCircularReveal(mRevealLayout, cx, cy, 0, finalRadius);
 
         // make the view visible and start the animation
         mRevealLayout.setVisibility(View.VISIBLE);
-        mRecyclerView.setVisibility(View.VISIBLE);
+        mFab.setVisibility(View.INVISIBLE);
 
-//                anim.setInterpolator(new AccelerateDecelerateInterpolator());
-        anim.setDuration(1500);
+//        anim.setInterpolator(new AccelerateDecelerateInterpolator());
+        anim.setDuration(350);
+        anim.addListener(new AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                startActivity(intent);
+                overridePendingTransition(0, R.anim.hold);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
         anim.start();
 
-
-        // TODO SKUZI ZASTO OVO FAKING NE RADI
-
-        Timber.d(String.valueOf(anim.isRunning()));
-
+//        mFab.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                startActivity(intent);
+//            }
+//        }, 1500);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mMainPresenter.resume();
+
+        Timber.w("ONRESUME");
     }
 
 

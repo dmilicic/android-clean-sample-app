@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.kodelabs.mycosts"
+<manifest
+    package="com.kodelabs.mycosts"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
@@ -19,13 +20,8 @@
         </activity>
         <activity
             android:name=".presentation.ui.activities.AddCostActivity"
-            android:label="@string/title_activity_add_cost"
-            android:parentActivityName=".presentation.ui.activities.MainActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.kodelabs.mycosts.presentation.ui.activities.MainActivity" />
-        </activity>
+            android:label="Add cost"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

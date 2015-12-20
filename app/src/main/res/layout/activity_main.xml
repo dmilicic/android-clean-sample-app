@@ -12,27 +12,15 @@
         android:background="?attr/colorPrimary"
         android:theme="@style/AppTheme.AppBarOverlay" />
 
-    <!-- This layout will be revealed when FAB is clicked -->
-    <io.codetail.widget.RevealFrameLayout
-        android:id="@+id/reveal_layout"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/expenses_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
 
-        <!--<View-->
-        <!--android:id="@+id/reveal_view"-->
-        <!--android:layout_height="match_parent" />-->
-        <!--android:layout_width="match_parent"-->
+    </android.support.v7.widget.RecyclerView>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/expenses_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="?attr/actionBarSize">
-
-        </android.support.v7.widget.RecyclerView>
-
-
-    </io.codetail.widget.RevealFrameLayout>
+    <!-- This layout will be revealed when FAB is clicked -->
 
 
     <android.support.design.widget.FloatingActionButton
@@ -41,6 +29,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_dialog_email" />
+        android:src="@android:drawable/ic_input_add" />
+
+    <include
+        layout="@layout/content_add_cost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize" />
 
 </FrameLayout>
