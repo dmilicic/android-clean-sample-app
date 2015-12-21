@@ -3,6 +3,8 @@ package com.kodelabs.mycosts.presentation.ui.activities;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.content.Intent;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +28,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.codetail.animation.SupportAnimator;
 import io.codetail.widget.RevealFrameLayout;
 import timber.log.Timber;
 
@@ -68,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
 
     private void enterReveal() {
-        Timber.d("FAB clicked!");
 
         // get the center for the clipping circle
         int cx = (mFab.getLeft() + mFab.getRight()) / 2;
@@ -82,20 +84,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
         Timber.w(String.valueOf(cx) + " " + String.valueOf(cy) + " " + String.valueOf(finalRadius));
 
-        // create the animator for this view (the start radius is zero)
-//                SupportAnimator anim =
-//                        io.codetail.animation.ViewAnimationUtils.createCircularReveal(mRevealView, cx, cy, 0, finalRadius);
-
-        Animator anim =
-                ViewAnimationUtils.createCircularReveal(mRevealLayout, cx, cy, 0, finalRadius);
-
-        // make the view visible and start the animation
-        mRevealLayout.setVisibility(View.VISIBLE);
-        mFab.setVisibility(View.INVISIBLE);
-
-//        anim.setInterpolator(new AccelerateDecelerateInterpolator());
-        anim.setDuration(350);
-        anim.addListener(new AnimatorListener() {
+        AnimatorListener animatorListener = new AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -116,14 +105,61 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
             public void onAnimationRepeat(Animator animation) {
 
             }
-        });
-        anim.start();
+        };
+
+
+        mFab.setVisibility(View.INVISIBLE);
+
+        // make the view visible and start the animation
+        mRevealLayout.setVisibility(View.VISIBLE);
+
+
+        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+
+            Animator anim =
+                    ViewAnimationUtils.createCircularReveal(mRevealLayout, cx, cy, 0, finalRadius);
+
+            anim.setDuration(350);
+            anim.addListener(animatorListener);
+            anim.start();
+        } else {
+            // create the animator for this view (the start radius is zero)
+            SupportAnimator anim =
+                    io.codetail.animation.ViewAnimationUtils.createCircularReveal(mRevealLayout, cx, cy, 0, finalRadius);
+
+            anim.setDuration(350);
+            anim.addListener(new SupportAnimator.AnimatorListener() {
+                @Override
+                public void onAnimationStart() {
+
+                }
+
+                @Override
+                public void onAnimationEnd() {
+                    startActivity(intent);
+                    overridePendingTransition(0, R.anim.hold);
+                }
+
+                @Override
+                public void onAnimationCancel() {
+
+                }
+
+                @Override
+                public void onAnimationRepeat() {
+
+                }
+            });
+            anim.start();
+        }
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mMainPresenter.resume();
+        mFab.setVisibility(View.VISIBLE);
 
         Timber.w("ONRESUME");
     }
