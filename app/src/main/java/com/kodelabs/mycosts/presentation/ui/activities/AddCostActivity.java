@@ -37,7 +37,7 @@ public class AddCostActivity extends AppCompatActivity {
 
         Timber.w("ON CREATE ADDCOST");
 
-        mToolbar.setNavigationIcon(android.R.drawable.ic_menu_close_clear_cancel);
+        mToolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationOnClickListener(new OnClickListener() {
             @Override
