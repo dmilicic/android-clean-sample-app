@@ -45,16 +45,30 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
     private MainPresenter mMainPresenter;
 
+    private CostItemAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         Timber.w("ONCREATE");
 
+        init();
+    }
 
+    private void init() {
+
+        // setup recycler view adapter
+        mAdapter = new CostItemAdapter(this);
+
+        // setup recycler view
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mAdapter);
+
+
+        // setup toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -67,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
         mMainPresenter = new MainPresenterImpl(ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(), this);
-    }
 
+    }
 
     private void enterReveal() {
 
@@ -193,8 +207,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
     @Override
     public void showCosts(List<Cost> costs) {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(new CostItemAdapter(costs, this));
+        mAdapter.addNewCosts(costs);
     }
 
     @Override

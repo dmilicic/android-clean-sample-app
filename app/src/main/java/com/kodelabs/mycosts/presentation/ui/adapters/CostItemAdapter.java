@@ -1,6 +1,7 @@
 package com.kodelabs.mycosts.presentation.ui.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.utils.DateUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -38,9 +40,14 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public CostItemAdapter(List<Cost> costList, Context context) {
-        mCostList = costList;
+    public CostItemAdapter(Context context) {
+        mCostList = new ArrayList<>();
         mContext = context;
+    }
+
+    public void addNewCosts(@NonNull List<Cost> costList) {
+        mCostList = costList;
+        this.notifyDataSetChanged();
     }
 
     @Override
