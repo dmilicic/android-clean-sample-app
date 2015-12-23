@@ -36,7 +36,6 @@ public class AddCostInteractorImpl extends AbstractInteractor implements AddCost
 
     @Override
     protected void run() {
-
         // create a new cost object and insert it
         Cost cost = new Cost(mCategory, mDescription, mDate, mAmount);
         mCostRepository.insert(cost);

@@ -42,6 +42,7 @@ public class DateUtils {
         c.add(Calendar.DATE, -1);
         Date yesterday = c.getTime();
 
+
         if (date.equals(today)) { // test if today
             textDate = context.getString(R.string.today_s);
         } else if (date.equals(yesterday)) {  // test if yesterday
@@ -101,6 +102,7 @@ public class DateUtils {
         Calendar c = Calendar.getInstance();
 
         // set the calendar to start of today
+        c.setTime(date);
         c.set(Calendar.HOUR_OF_DAY, 0);
         c.set(Calendar.MINUTE, 0);
         c.set(Calendar.SECOND, 0);

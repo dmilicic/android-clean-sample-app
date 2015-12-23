@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +42,15 @@ public class AddCostActivity extends AppCompatActivity
 
     @Bind(R.id.input_date)
     TextView mDateTextView;
+
+    @Bind(R.id.input_amount)
+    EditText mAmountEditText;
+
+    @Bind(R.id.input_description)
+    EditText mDescriptionEditText;
+
+    @Bind(R.id.input_cost_category)
+    Spinner mCategorySpinner;
 
     private AddCostPresenter mPresenter;
 
@@ -108,7 +119,19 @@ public class AddCostActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
-            mPresenter.addNewCost(new Date(), 150.25, "Description", "categoryx");
+
+            // extract data from the form
+            try {
+                mAmount = Double.valueOf(mAmountEditText.getText().toString());
+            } catch (NumberFormatException e) {
+                mAmount = 0.0;
+            }
+
+            mDescription = mDescriptionEditText.getText().toString();
+            mCategory = mCategorySpinner.getSelectedItem().toString();
+
+            // pass the data onto the presenter
+            mPresenter.addNewCost(mSelectedDate, mAmount, mDescription, mCategory);
             return true;
         }
 

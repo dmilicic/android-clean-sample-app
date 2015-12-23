@@ -62,11 +62,11 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         Cost cost = mCostList.get(position);
+
         ViewHolder holder = (ViewHolder) viewHolder;
 
-        final String title = String.format(mContext.getString(R.string.total_expenses),
-                DateUtils.dateToText(mContext, cost.getDate()));
-
+        final String dateText = DateUtils.dateToText(mContext, cost.getDate());
+        final String title = String.format(mContext.getString(R.string.total_expenses), dateText);
         holder.mTitle.setText(title);
         holder.mTotalCost.setText(String.valueOf(cost.getAmount()));
     }
