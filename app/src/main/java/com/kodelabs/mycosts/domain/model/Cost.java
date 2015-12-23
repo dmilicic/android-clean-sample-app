@@ -7,13 +7,13 @@ import java.util.Date;
  */
 public class Cost {
     private String mCategory;
-    private String mDesciption;
+    private String mDescription;
     private Date   mDate;
     private double mAmount;
 
-    public Cost(String category, String desciption, Date date, double amount) {
+    public Cost(String category, String description, Date date, double amount) {
         mCategory = category;
-        mDesciption = desciption;
+        mDescription = description;
         mDate = date;
         mAmount = amount;
     }
@@ -22,8 +22,8 @@ public class Cost {
         return mCategory;
     }
 
-    public String getDesciption() {
-        return mDesciption;
+    public String getDescription() {
+        return mDescription;
     }
 
     public Date getDate() {

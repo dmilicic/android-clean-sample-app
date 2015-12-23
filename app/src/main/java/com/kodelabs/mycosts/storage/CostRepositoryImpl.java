@@ -11,6 +11,23 @@ import java.util.List;
  * Created by dmilicic on 12/13/15.
  */
 public class CostRepositoryImpl implements CostRepository {
+
+    // this represents are temporary database
+    private static List<Cost> mCosts;
+
+    static {
+        mCosts = new ArrayList<>();
+        mCosts.add(new Cost("Transportation", "ZET", new Date(), 100.0));
+        mCosts.add(new Cost("Groceries", "ZET", new Date(), 100.0));
+        mCosts.add(new Cost("Entertainment", "ZET", new Date(), 100.0));
+        mCosts.add(new Cost("Bills", "HEP struja", new Date(), 100.0));
+    }
+
+    @Override
+    public void insert(Cost item) {
+        mCosts.add(item);
+    }
+
     @Override
     public List<Cost> getCostsByDate(Date date) {
         return new ArrayList<>();
@@ -18,13 +35,6 @@ public class CostRepositoryImpl implements CostRepository {
 
     @Override
     public List<Cost> getCostsInRange(Date startDate, Date endDate) {
-        ArrayList<Cost> costs = new ArrayList<>();
-
-        costs.add(new Cost("Transportation", "ZET", new Date(), 100.0));
-        costs.add(new Cost("Groceries", "ZET", new Date(), 100.0));
-        costs.add(new Cost("Entertainment", "ZET", new Date(), 100.0));
-        costs.add(new Cost("Bills", "HEP struja", new Date(), 100.0));
-
-        return costs;
+        return mCosts;
     }
 }

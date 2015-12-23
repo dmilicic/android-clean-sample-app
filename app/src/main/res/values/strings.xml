@@ -4,5 +4,22 @@
     <string name="today_s">Today\'s</string>
     <string name="yesterday_s">Yesterday\'s</string>
     <string name="total_expenses">%1$s total expenses</string>
-    <string name="title_activity_add_cost">AddCostActivity</string>
+    <string name="title_activity_add_cost">Add cost</string>
+
+    <string-array name="category_array">
+        <item>Entertainment</item>
+        <item>Equipment</item>
+        <item>Gifts</item>
+        <item>Groceries</item>
+        <item>Insurance</item>
+        <item>Medical</item>
+        <item>Payment</item>
+        <item>Rent</item>
+        <item>Salary</item>
+        <item>Shopping</item>
+        <item>Tickets</item>
+        <item>Transfer</item>
+        <item>Transportation</item>
+        <item>Utilities</item>
+    </string-array>
 </resources>

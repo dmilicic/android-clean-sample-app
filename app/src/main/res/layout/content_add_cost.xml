@@ -35,6 +35,7 @@
             android:id="@+id/input_cost_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:entries="@array/category_array"
             android:padding="16dp" />
 
 

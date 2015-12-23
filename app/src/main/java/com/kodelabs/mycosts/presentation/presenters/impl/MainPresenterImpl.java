@@ -11,6 +11,8 @@ import com.kodelabs.mycosts.storage.CostRepositoryImpl;
 import java.util.Date;
 import java.util.List;
 
+import timber.log.Timber;
+
 /**
  * Created by dmilicic on 12/13/15.
  */
@@ -29,6 +31,8 @@ public class MainPresenterImpl implements MainPresenter, GetCostsInteractor.Call
 
     @Override
     public void resume() {
+
+        Timber.w("GETTING COST LIST");
 
         // get latest cost list
         GetCostsInteractor getCostsInteractor = new GetCostsInteractorImpl(mExecutor, mMainThread,
@@ -58,6 +62,7 @@ public class MainPresenterImpl implements MainPresenter, GetCostsInteractor.Call
 
     @Override
     public void onCostsRetrieved(List<Cost> costList) {
+        Timber.w("COST LIST RETRIEVED");
         mView.showCosts(costList);
     }
 }

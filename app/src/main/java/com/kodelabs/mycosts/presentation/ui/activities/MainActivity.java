@@ -159,7 +159,10 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     protected void onResume() {
         super.onResume();
         mMainPresenter.resume();
+
+        // reset the layouts
         mFab.setVisibility(View.VISIBLE);
+        mRevealLayout.setVisibility(View.INVISIBLE);
 
         Timber.w("ONRESUME");
     }

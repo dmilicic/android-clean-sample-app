@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface CostRepository {
 
+    void insert(Cost item);
+
     List<Cost> getCostsByDate(Date date);
 
     List<Cost> getCostsInRange(Date startDate, Date endDate);
