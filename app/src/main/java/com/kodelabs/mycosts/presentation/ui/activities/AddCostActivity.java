@@ -1,5 +1,6 @@
 package com.kodelabs.mycosts.presentation.ui.activities;
 
+import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ import com.kodelabs.mycosts.domain.interactors.base.ThreadExecutor;
 import com.kodelabs.mycosts.presentation.presenters.AddCostPresenter;
 import com.kodelabs.mycosts.presentation.presenters.impl.AddCostPresenterImpl;
 import com.kodelabs.mycosts.presentation.ui.fragments.DatePickerFragment;
+import com.kodelabs.mycosts.utils.DateUtils;
 
 import java.util.Date;
 
@@ -26,7 +29,8 @@ import butterknife.OnClick;
 import io.codetail.widget.RevealFrameLayout;
 import timber.log.Timber;
 
-public class AddCostActivity extends AppCompatActivity implements AddCostPresenter.View {
+public class AddCostActivity extends AppCompatActivity
+        implements AddCostPresenter.View, DatePickerDialog.OnDateSetListener {
 
     @Bind(R.id.reveal_layout)
     RevealFrameLayout mRevealLayout;
@@ -38,6 +42,11 @@ public class AddCostActivity extends AppCompatActivity implements AddCostPresent
     TextView mDateTextView;
 
     private AddCostPresenter mPresenter;
+
+    private Date   mSelectedDate;
+    private String mDescription;
+    private String mCategory;
+    private double mAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +79,16 @@ public class AddCostActivity extends AppCompatActivity implements AddCostPresent
     @Override
     protected void onResume() {
         super.onResume();
-
         Timber.w("ON RESUME ADDCOST");
+
+        // default day should be today
+        mSelectedDate = DateUtils.getToday();
+        mDateTextView.setText(DateUtils.formatDate(mSelectedDate));
     }
 
     @OnClick(R.id.input_date)
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
+        DialogFragment newFragment = new DatePickerFragment(this);
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
@@ -124,4 +136,11 @@ public class AddCostActivity extends AppCompatActivity implements AddCostPresent
     public void showError(String message) {
 
     }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        mSelectedDate = DateUtils.createDate(year, monthOfYear, dayOfMonth);
+        mDateTextView.setText(DateUtils.formatDate(mSelectedDate));
+    }
+
 }

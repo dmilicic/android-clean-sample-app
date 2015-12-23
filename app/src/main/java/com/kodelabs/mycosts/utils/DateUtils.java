@@ -7,6 +7,7 @@ import com.kodelabs.mycosts.R;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by dmilicic on 9/20/15.
@@ -46,11 +47,38 @@ public class DateUtils {
         } else if (date.equals(yesterday)) {  // test if yesterday
             textDate = context.getString(R.string.yesterday_s);
         } else {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM");
-            textDate = sdf.format(date);
+            textDate = formatDate(date, new SimpleDateFormat("dd.MM"));
         }
 
         return textDate;
+    }
+
+    public static Date createDate(int year, int monthOfYear, int dayOfMonth) {
+        Calendar c = Calendar.getInstance();
+
+        // set the calendar to start of today
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+
+        // setup the date
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, monthOfYear);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+        // and get that as a Date
+        Date resultDate = c.getTime();
+        return resultDate;
+    }
+
+    public static String formatDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.US);
+        return sdf.format(date);
+    }
+
+    public static String formatDate(Date date, SimpleDateFormat sdf) {
+        return sdf.format(date);
     }
 
     public static Date getToday() {
