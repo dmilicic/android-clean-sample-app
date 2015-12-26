@@ -55,7 +55,7 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View view = inflater.inflate(R.layout.cost_item, parent, false);
+        View view = inflater.inflate(R.layout.card_individual_cost_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -66,7 +66,7 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         ViewHolder holder = (ViewHolder) viewHolder;
 
         final String dateText = DateUtils.dateToText(mContext, cost.getDate());
-        final String title = String.format(mContext.getString(R.string.total_expenses), dateText);
+        final String title = String.format(mContext.getString(R.string.cost), dateText);
         holder.mTitle.setText(title);
         holder.mTotalCost.setText(String.valueOf(cost.getAmount()));
     }
