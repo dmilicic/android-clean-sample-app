@@ -2,6 +2,8 @@ package com.kodelabs.mycosts.presentation.ui.activities;
 
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
@@ -209,9 +211,28 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     }
 
     @Override
-    public void onCostItemClick(Cost cost) {
-        Timber.w(cost.toString());
-        mMainPresenter.deleteCost(cost);
+    public void onCostItemClick(final Cost cost) {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        mMainPresenter.deleteCost(cost);
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Delete this cost?")
+                .setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener)
+                .show();
+
     }
 
     @Override
