@@ -127,6 +127,7 @@ public class AddCostActivity extends AppCompatActivity
                 mAmount = 0.0;
             }
 
+            // extract description and category
             mDescription = mDescriptionEditText.getText().toString();
             mCategory = mCategorySpinner.getSelectedItem().toString();
 

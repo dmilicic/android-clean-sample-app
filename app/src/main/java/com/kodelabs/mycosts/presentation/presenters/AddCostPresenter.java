@@ -1,6 +1,5 @@
 package com.kodelabs.mycosts.presentation.presenters;
 
-import com.kodelabs.mycosts.presentation.presenters.BasePresenter;
 import com.kodelabs.mycosts.presentation.ui.BaseView;
 
 import java.util.Date;

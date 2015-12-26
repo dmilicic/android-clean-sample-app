@@ -21,7 +21,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 /**
  * Created by dmilicic on 12/13/15.
@@ -54,7 +53,16 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mDeleteBtn.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onClick(ViewHolder.this.getAdapterPosition());
+                    listener.onClickDelete(ViewHolder.this.getAdapterPosition());
+                }
+            });
+
+
+            // setup the edit button listener
+            mEditBtn.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onClickEdit(ViewHolder.this.getAdapterPosition());
                 }
             });
         }
@@ -67,10 +75,15 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onClick(int position) {
+    public void onClickDelete(int position) {
         Cost cost = mCostList.get(position);
-        Timber.w(String.valueOf(cost.hashCode()));
-        mView.onCostItemClick(cost);
+        mView.onClickDeleteCost(cost);
+    }
+
+    @Override
+    public void onClickEdit(int position) {
+        Cost cost = mCostList.get(position);
+        mView.onClickEditCost(cost);
     }
 
     public void addNewCosts(@NonNull List<Cost> costList) {
@@ -79,7 +92,6 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public void deleteCost(@NonNull Cost cost) {
-        Timber.w(String.valueOf(cost.hashCode()));
         int position = mCostList.indexOf(cost);
         mCostList.remove(position);
         notifyItemRemoved(position);

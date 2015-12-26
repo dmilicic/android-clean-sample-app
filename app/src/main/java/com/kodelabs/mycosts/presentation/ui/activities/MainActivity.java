@@ -211,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     }
 
     @Override
-    public void onCostItemClick(final Cost cost) {
+    public void onClickDeleteCost(final Cost cost) {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -232,7 +232,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
                 .setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener)
                 .show();
-
     }
 
     @Override
@@ -240,6 +239,15 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         if (mAdapter != null) {
             mAdapter.deleteCost(cost);
         }
+    }
+
+    @Override
+    public void onClickEditCost(Cost cost) {
+        Timber.w(cost.toString());
+
+        // intent to start another activity
+        final Intent intent = new Intent(MainActivity.this, AddCostActivity.class);
+        startActivity(intent);
     }
 
     @Override

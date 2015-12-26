@@ -14,7 +14,9 @@ public interface MainPresenter extends BasePresenter {
 
         void showCosts(List<Cost> costs);
 
-        void onCostItemClick(Cost cost);
+        void onClickDeleteCost(Cost cost);
+
+        void onClickEditCost(Cost cost);
 
         void onCostDeleted(Cost cost);
     }
