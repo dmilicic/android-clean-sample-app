@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.Toast;
 
 import com.kodelabs.mycosts.MainThreadImpl;
 import com.kodelabs.mycosts.R;
@@ -35,6 +36,8 @@ import io.codetail.widget.RevealFrameLayout;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements MainPresenter.View {
+
+    public static final String EXTRA_COST_ID = "extra_cost_id_key";
 
     @Bind(R.id.expenses_list)
     RecyclerView mRecyclerView;
@@ -243,11 +246,16 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
     @Override
     public void onClickEditCost(Cost cost) {
-        Timber.w(cost.toString());
 
         // intent to start another activity
         final Intent intent = new Intent(MainActivity.this, AddCostActivity.class);
+        intent.putExtra(EXTRA_COST_ID, cost.getId());
         startActivity(intent);
+    }
+
+    @Override
+    public void onCostUpdated(Cost cost) {
+        Toast.makeText(this, "Updated!", Toast.LENGTH_LONG).show();
     }
 
     @Override

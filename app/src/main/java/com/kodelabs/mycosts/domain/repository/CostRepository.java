@@ -12,6 +12,10 @@ public interface CostRepository {
 
     void insert(Cost cost);
 
+    void update(Cost cost);
+
+    Cost getCostById(long id);
+
     List<Cost> getCostsByDate(Date date);
 
     List<Cost> getCostsInRange(Date startDate, Date endDate);

@@ -23,6 +23,10 @@ public class Cost {
         mAmount = amount;
     }
 
+    public long getId() {
+        return mId;
+    }
+
     public String getCategory() {
         return mCategory;
     }
@@ -46,25 +50,13 @@ public class Cost {
 
         Cost cost = (Cost) o;
 
-        if (mId != cost.mId) return false;
-        if (Math.abs(cost.mAmount - mAmount) > 10E-9) return false;
-        if (!mCategory.equals(cost.mCategory)) return false;
-        if (mDescription != null ? !mDescription.equals(cost.mDescription) : cost.mDescription != null) return false;
-        return mDate.equals(cost.mDate);
+        return mId == cost.mId;
 
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = (int) (mId ^ (mId >>> 32));
-        result = 31 * result + mCategory.hashCode();
-        result = 31 * result + (mDescription != null ? mDescription.hashCode() : 0);
-        result = 31 * result + mDate.hashCode();
-        temp = Double.doubleToLongBits(mAmount);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
-        return result;
+        return (int) (mId ^ (mId >>> 32));
     }
 
     @Override

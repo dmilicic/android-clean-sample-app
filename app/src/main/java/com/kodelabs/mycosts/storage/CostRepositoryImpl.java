@@ -43,6 +43,29 @@ public class CostRepositoryImpl implements CostRepository {
     }
 
     @Override
+    public void update(Cost cost) {
+        // remove the old one with the same id
+        mCosts.remove(cost);
+
+        // add the new one back as the "edited" version
+        mCosts.add(cost);
+    }
+
+    @Override
+    public Cost getCostById(long id) {
+        Cost currentCost = null;
+
+        // find cost by id
+        for (int i = 0; i < mCosts.size(); i++) {
+            currentCost = mCosts.get(i);
+            if (currentCost.getId() == id)
+                return currentCost;
+        }
+
+        return null;
+    }
+
+    @Override
     public List<Cost> getCostsByDate(Date date) {
         return new ArrayList<>();
     }

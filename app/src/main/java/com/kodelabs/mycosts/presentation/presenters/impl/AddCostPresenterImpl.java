@@ -3,7 +3,10 @@ package com.kodelabs.mycosts.presentation.presenters.impl;
 import com.kodelabs.mycosts.domain.executor.Executor;
 import com.kodelabs.mycosts.domain.executor.MainThread;
 import com.kodelabs.mycosts.domain.interactors.AddCostInteractor;
+import com.kodelabs.mycosts.domain.interactors.EditCostInteractor;
 import com.kodelabs.mycosts.domain.interactors.impl.AddCostInteractorImpl;
+import com.kodelabs.mycosts.domain.interactors.impl.EditCostInteractorImpl;
+import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.presentation.presenters.AbstractPresenter;
 import com.kodelabs.mycosts.presentation.presenters.AddCostPresenter;
 import com.kodelabs.mycosts.storage.CostRepositoryImpl;
@@ -13,7 +16,9 @@ import java.util.Date;
 /**
  * Created by dmilicic on 12/23/15.
  */
-public class AddCostPresenterImpl extends AbstractPresenter implements AddCostPresenter, AddCostInteractor.Callback {
+public class AddCostPresenterImpl extends AbstractPresenter implements AddCostPresenter,
+        AddCostInteractor.Callback,
+        EditCostInteractor.Callback {
 
     private AddCostPresenter.View mView;
 
@@ -41,6 +46,22 @@ public class AddCostPresenterImpl extends AbstractPresenter implements AddCostPr
     public void onCostAdded() {
         mView.onCostAdded();
     }
+
+
+    @Override
+    public void editCost(Cost cost) {
+        EditCostInteractor editCostInteractor = new EditCostInteractorImpl(mExecutor,
+                mMainThread,
+                this,
+                CostRepositoryImpl.getInstance(),
+                cost);
+        editCostInteractor.execute();
+    }
+
+    @Override
+    public void onCostUpdated(Cost cost) {
+    }
+
 
     @Override
     public void resume() {
