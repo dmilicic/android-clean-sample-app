@@ -26,8 +26,15 @@ public class AddCostPresenterImpl extends AbstractPresenter implements AddCostPr
 
     @Override
     public void addNewCost(Date date, double amount, String description, String category) {
-        AddCostInteractor mInteractor = new AddCostInteractorImpl(mExecutor, mMainThread, this, new CostRepositoryImpl(), category, description, date, amount);
-        mInteractor.execute();
+        AddCostInteractor addCostInteractor = new AddCostInteractorImpl(mExecutor,
+                mMainThread,
+                this,
+                CostRepositoryImpl.getInstance(),
+                category,
+                description,
+                date,
+                amount);
+        addCostInteractor.execute();
     }
 
     @Override

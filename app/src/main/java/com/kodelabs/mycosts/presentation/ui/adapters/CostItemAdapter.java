@@ -21,6 +21,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by dmilicic on 12/13/15.
@@ -68,12 +69,21 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onClick(int position) {
         Cost cost = mCostList.get(position);
+        Timber.w(String.valueOf(cost.hashCode()));
         mView.onCostItemClick(cost);
     }
 
     public void addNewCosts(@NonNull List<Cost> costList) {
         mCostList = costList;
         this.notifyDataSetChanged();
+    }
+
+    public void deleteCost(@NonNull Cost cost) {
+        Timber.w(String.valueOf(cost.hashCode()));
+        int position = mCostList.indexOf(cost);
+        mCostList.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, mCostList.size());
     }
 
     @Override

@@ -96,8 +96,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         // intent to start another activity
         final Intent intent = new Intent(MainActivity.this, AddCostActivity.class);
 
-        Timber.w(String.valueOf(cx) + " " + String.valueOf(cy) + " " + String.valueOf(finalRadius));
-
         AnimatorListener animatorListener = new AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -213,6 +211,14 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     @Override
     public void onCostItemClick(Cost cost) {
         Timber.w(cost.toString());
+        mMainPresenter.deleteCost(cost);
+    }
+
+    @Override
+    public void onCostDeleted(Cost cost) {
+        if (mAdapter != null) {
+            mAdapter.deleteCost(cost);
+        }
     }
 
     @Override

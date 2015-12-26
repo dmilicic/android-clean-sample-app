@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class CostRepositoryImpl implements CostRepository {
 
-    // this represents are temporary database
-    private static List<Cost> mCosts;
+    // this represents a temporary database
+    private static volatile List<Cost> mCosts;
 
     static {
         mCosts = new ArrayList<>();
@@ -21,6 +21,20 @@ public class CostRepositoryImpl implements CostRepository {
         mCosts.add(new Cost("Groceries", "ZET", new Date(), 100.0));
         mCosts.add(new Cost("Entertainment", "ZET", new Date(), 100.0));
         mCosts.add(new Cost("Bills", "HEP struja", new Date(), 100.0));
+    }
+
+    private CostRepositoryImpl() {
+        // private constructor
+    }
+
+    private static CostRepository sCostRepository;
+
+    public static CostRepository getInstance() {
+        if (sCostRepository == null) {
+            sCostRepository = new CostRepositoryImpl();
+        }
+
+        return sCostRepository;
     }
 
     @Override
@@ -35,6 +49,18 @@ public class CostRepositoryImpl implements CostRepository {
 
     @Override
     public List<Cost> getCostsInRange(Date startDate, Date endDate) {
-        return mCosts;
+
+        // return a copy of the items in "database"
+        List<Cost> copy = new ArrayList<>();
+        for (int i = 0; i < mCosts.size(); i++) {
+            copy.add(mCosts.get(i));
+        }
+
+        return copy;
+    }
+
+    @Override
+    public void delete(Cost cost) {
+        mCosts.remove(cost);
     }
 }
