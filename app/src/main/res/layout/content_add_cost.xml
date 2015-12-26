@@ -5,38 +5,89 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
-    android:visibility="invisible">
+    android:visibility="visible">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/input_date"
-            style="@android:style/Widget.DeviceDefault.Light.Spinner"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Enter date"
-            android:padding="16dp" />
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_column="0"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:src="@drawable/ic_date_range_black_24dp" />
 
 
-        <EditText
-            android:id="@+id/input_amount"
+            <TextView
+                android:id="@+id/input_date"
+                style="@android:style/Widget.DeviceDefault.Light.Spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Enter date"
+                android:padding="20dp" />
+
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <EditText
+                android:id="@+id/input_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="0.00"
+                android:inputType="numberDecimal"
+                android:padding="16dp" />
+
+            <TextView
+                android:id="@+id/textview_amount"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:ems="10"
+                android:hint="USD"
+                android:padding="20dp" />
+
+
+        </RelativeLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="0.00"
-            android:inputType="numberDecimal"
-            android:padding="16dp" />
+            android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/input_cost_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/category_array"
-            android:padding="16dp" />
+            <TextView
+                android:id="@+id/textview_category"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Category:"
+                android:padding="20dp" />
+
+
+            <Spinner
+                android:id="@+id/input_cost_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/category_array"
+                android:padding="16dp" />
+
+        </LinearLayout>
 
 
         <EditText
@@ -47,6 +98,7 @@
             android:hint="Enter description"
             android:inputType="text"
             android:padding="16dp" />
+
 
     </LinearLayout>
 

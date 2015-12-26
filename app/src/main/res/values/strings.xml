@@ -22,5 +22,6 @@
         <item>Transfer</item>
         <item>Transportation</item>
         <item>Utilities</item>
+        <item>Other</item>
     </string-array>
 </resources>
