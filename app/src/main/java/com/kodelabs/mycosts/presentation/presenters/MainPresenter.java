@@ -13,5 +13,7 @@ public interface MainPresenter extends BasePresenter {
     interface View extends BaseView {
 
         void showCosts(List<Cost> costs);
+
+        void onCostItemClick(Cost cost);
     }
 }

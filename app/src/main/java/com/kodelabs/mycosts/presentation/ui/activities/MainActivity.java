@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     private void init() {
 
         // setup recycler view adapter
-        mAdapter = new CostItemAdapter(this);
+        mAdapter = new CostItemAdapter(this, this);
 
         // setup recycler view
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -208,6 +208,11 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     @Override
     public void showCosts(List<Cost> costs) {
         mAdapter.addNewCosts(costs);
+    }
+
+    @Override
+    public void onCostItemClick(Cost cost) {
+        Timber.w(cost.toString());
     }
 
     @Override
