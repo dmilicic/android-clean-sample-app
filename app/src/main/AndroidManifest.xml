@@ -22,6 +22,11 @@
             android:name=".presentation.ui.activities.AddCostActivity"
             android:label="Add cost"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".presentation.ui.activities.EditCostActivity"
+            android:label="Edit cost"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

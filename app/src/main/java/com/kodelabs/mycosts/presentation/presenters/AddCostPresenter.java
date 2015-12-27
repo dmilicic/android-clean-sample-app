@@ -1,6 +1,5 @@
 package com.kodelabs.mycosts.presentation.presenters;
 
-import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.presentation.ui.BaseView;
 
 import java.util.Date;
@@ -18,5 +17,4 @@ public interface AddCostPresenter extends BasePresenter {
 
     void addNewCost(Date date, double amount, String description, String category);
 
-    void editCost(Cost cost);
 }

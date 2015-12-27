@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     public void onClickEditCost(Cost cost) {
 
         // intent to start another activity
-        final Intent intent = new Intent(MainActivity.this, AddCostActivity.class);
+        final Intent intent = new Intent(MainActivity.this, EditCostActivity.class);
         intent.putExtra(EXTRA_COST_ID, cost.getId());
         startActivity(intent);
     }

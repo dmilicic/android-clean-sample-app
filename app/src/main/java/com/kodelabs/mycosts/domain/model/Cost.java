@@ -23,6 +23,22 @@ public class Cost {
         mAmount = amount;
     }
 
+    public void setCategory(String category) {
+        mCategory = category;
+    }
+
+    public void setDescription(String description) {
+        mDescription = description;
+    }
+
+    public void setDate(Date date) {
+        mDate = date;
+    }
+
+    public void setAmount(double amount) {
+        mAmount = amount;
+    }
+
     public long getId() {
         return mId;
     }

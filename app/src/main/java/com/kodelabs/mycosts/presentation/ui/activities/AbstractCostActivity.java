@@ -87,6 +87,19 @@ public abstract class AbstractCostActivity extends AppCompatActivity
         return true;
     }
 
+    protected void extractFormData() {
+        // extract data from the form
+        try {
+            mAmount = Double.valueOf(mAmountEditText.getText().toString());
+        } catch (NumberFormatException e) {
+            mAmount = 0.0;
+        }
+
+        // extract description and category
+        mDescription = mDescriptionEditText.getText().toString();
+        mCategory = mCategorySpinner.getSelectedItem().toString();
+    }
+
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         mSelectedDate = DateUtils.createDate(year, monthOfYear, dayOfMonth);
