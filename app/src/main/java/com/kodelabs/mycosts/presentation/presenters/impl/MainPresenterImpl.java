@@ -3,10 +3,14 @@ package com.kodelabs.mycosts.presentation.presenters.impl;
 import com.kodelabs.mycosts.domain.executor.Executor;
 import com.kodelabs.mycosts.domain.executor.MainThread;
 import com.kodelabs.mycosts.domain.interactors.DeleteCostInteractor;
+import com.kodelabs.mycosts.domain.interactors.GetCostByIdInteractor;
 import com.kodelabs.mycosts.domain.interactors.GetCostsInteractor;
 import com.kodelabs.mycosts.domain.interactors.impl.DeleteCostInteractorImpl;
+import com.kodelabs.mycosts.domain.interactors.impl.GetCostByIdInteractorImpl;
 import com.kodelabs.mycosts.domain.interactors.impl.GetCostsInteractorImpl;
 import com.kodelabs.mycosts.domain.model.Cost;
+import com.kodelabs.mycosts.presentation.converter.DailyTotalCostConverter;
+import com.kodelabs.mycosts.presentation.model.DailyTotalCost;
 import com.kodelabs.mycosts.presentation.presenters.AbstractPresenter;
 import com.kodelabs.mycosts.presentation.presenters.MainPresenter;
 import com.kodelabs.mycosts.storage.CostRepositoryImpl;
@@ -14,13 +18,12 @@ import com.kodelabs.mycosts.storage.CostRepositoryImpl;
 import java.util.Date;
 import java.util.List;
 
-import timber.log.Timber;
-
 /**
  * Created by dmilicic on 12/13/15.
  */
 public class MainPresenterImpl extends AbstractPresenter implements MainPresenter,
         GetCostsInteractor.Callback,
+        GetCostByIdInteractor.Callback,
         DeleteCostInteractor.Callback {
 
     private MainPresenter.View mView;
@@ -61,8 +64,8 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
 
     @Override
     public void onCostsRetrieved(List<Cost> costList) {
-        Timber.w("COST LIST RETRIEVED");
-        mView.showCosts(costList);
+        List<DailyTotalCost> dailyTotalCosts = DailyTotalCostConverter.convertCostsToDailyCosts(costList);
+        mView.showCosts(dailyTotalCosts);
     }
 
     @Override
@@ -72,6 +75,18 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
         DeleteCostInteractor deleteCostInteractor = new DeleteCostInteractorImpl(mExecutor,
                 mMainThread, cost, this, CostRepositoryImpl.getInstance());
         deleteCostInteractor.execute();
+    }
+
+    @Override
+    public void getCostById(long id) {
+        GetCostByIdInteractor costByIdInteractor = new GetCostByIdInteractorImpl(
+                mExecutor, mMainThread, id, CostRepositoryImpl.getInstance(), this);
+        costByIdInteractor.execute();
+    }
+
+    @Override
+    public void onCostRetrieved(Cost cost) {
+        mView.onCostRetrieved(cost);
     }
 
     @Override

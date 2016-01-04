@@ -1,6 +1,7 @@
 package com.kodelabs.mycosts.presentation.presenters;
 
 import com.kodelabs.mycosts.domain.model.Cost;
+import com.kodelabs.mycosts.presentation.model.DailyTotalCost;
 import com.kodelabs.mycosts.presentation.ui.BaseView;
 
 import java.util.List;
@@ -12,16 +13,18 @@ public interface MainPresenter extends BasePresenter {
 
     interface View extends BaseView {
 
-        void showCosts(List<Cost> costs);
+        void showCosts(List<DailyTotalCost> costs);
 
         void onClickDeleteCost(Cost cost);
 
-        void onClickEditCost(Cost cost);
+        void onClickEditCost(Cost cost, int position);
 
         void onCostDeleted(Cost cost);
 
-        void onCostUpdated(Cost cost);
+        void onCostRetrieved(Cost cost);
     }
+
+    void getCostById(long id);
 
     void deleteCost(Cost cost);
 }

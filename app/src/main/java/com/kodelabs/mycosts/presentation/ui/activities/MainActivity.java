@@ -23,6 +23,7 @@ import com.kodelabs.mycosts.MainThreadImpl;
 import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.interactors.base.ThreadExecutor;
 import com.kodelabs.mycosts.domain.model.Cost;
+import com.kodelabs.mycosts.presentation.model.DailyTotalCost;
 import com.kodelabs.mycosts.presentation.presenters.MainPresenter;
 import com.kodelabs.mycosts.presentation.presenters.impl.MainPresenterImpl;
 import com.kodelabs.mycosts.presentation.ui.adapters.CostItemAdapter;
@@ -37,7 +38,12 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements MainPresenter.View {
 
-    public static final String EXTRA_COST_ID = "extra_cost_id_key";
+    public static final String EXTRA_COST_ID       = "extra_cost_id_key";
+    public static final String EXTRA_COST_POSITION = "extra_cost_position_key";
+
+    public static final int EDIT_COST_REQUEST = 0;
+
+    public static final int UNDEFINED = -1;
 
     @Bind(R.id.expenses_list)
     RecyclerView mRecyclerView;
@@ -51,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     private MainPresenter mMainPresenter;
 
     private CostItemAdapter mAdapter;
+
+    private int mEditedPosition;
 
 
     @Override
@@ -201,7 +209,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            enterReveal();
             return true;
         }
 
@@ -209,7 +216,22 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     }
 
     @Override
-    public void showCosts(List<Cost> costs) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == EDIT_COST_REQUEST && resultCode == RESULT_OK) {
+            // TODO get the cost id and update it in the recycler view
+
+            // extract the cost id and its adapter position from the intent
+            long costId = data.getLongExtra(EXTRA_COST_ID, UNDEFINED);
+            mEditedPosition = data.getIntExtra(EXTRA_COST_POSITION, UNDEFINED);
+
+            mMainPresenter.getCostById(costId);
+        }
+    }
+
+    @Override
+    public void showCosts(List<DailyTotalCost> costs) {
         mAdapter.addNewCosts(costs);
     }
 
@@ -245,17 +267,22 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     }
 
     @Override
-    public void onClickEditCost(Cost cost) {
+    public void onClickEditCost(Cost cost, int position) {
 
         // intent to start another activity
         final Intent intent = new Intent(MainActivity.this, EditCostActivity.class);
         intent.putExtra(EXTRA_COST_ID, cost.getId());
-        startActivity(intent);
+        intent.putExtra(EXTRA_COST_POSITION, position);
+
+        startActivityForResult(intent, EDIT_COST_REQUEST);
     }
 
     @Override
-    public void onCostUpdated(Cost cost) {
-        Toast.makeText(this, "Updated!", Toast.LENGTH_LONG).show();
+    public void onCostRetrieved(Cost cost) {
+        if (mEditedPosition != UNDEFINED) {
+            Toast.makeText(this, "Updated!", Toast.LENGTH_LONG).show();
+//            mAdapter.onCostUpdated(cost, mEditedPosition);
+        }
     }
 
     @Override

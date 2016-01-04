@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.model.Cost;
+import com.kodelabs.mycosts.presentation.model.DailyTotalCost;
 import com.kodelabs.mycosts.presentation.presenters.MainPresenter;
 import com.kodelabs.mycosts.presentation.ui.listeners.CostViewClickListener;
 import com.kodelabs.mycosts.utils.DateUtils;
@@ -27,9 +28,9 @@ import butterknife.ButterKnife;
  */
 public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements CostViewClickListener {
 
-    private      List<Cost>         mCostList;
-    private      Context            mContext;
-    public final MainPresenter.View mView;
+    private      List<DailyTotalCost> mCostList;
+    private      Context              mContext;
+    public final MainPresenter.View   mView;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -76,17 +77,17 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onClickDelete(int position) {
-        Cost cost = mCostList.get(position);
-        mView.onClickDeleteCost(cost);
+//        Cost cost = mCostList.get(position);
+//        mView.onClickDeleteCost(cost);
     }
 
     @Override
     public void onClickEdit(int position) {
-        Cost cost = mCostList.get(position);
-        mView.onClickEditCost(cost);
+//        Cost cost = mCostList.get(position);
+//        mView.onClickEditCost(cost, position);
     }
 
-    public void addNewCosts(@NonNull List<Cost> costList) {
+    public void addNewCosts(@NonNull List<DailyTotalCost> costList) {
         mCostList = costList;
         this.notifyDataSetChanged();
     }
@@ -98,25 +99,31 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyItemRangeChanged(position, mCostList.size());
     }
 
+    public void onCostUpdated(@NonNull DailyTotalCost cost, int position) {
+        mCostList.remove(position);
+        mCostList.add(position, cost);
+        notifyItemChanged(position);
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View view = inflater.inflate(R.layout.card_individual_cost_item, parent, false);
+        View view = inflater.inflate(R.layout.card_cost_item, parent, false);
         return new ViewHolder(view, this);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        Cost cost = mCostList.get(position);
+        DailyTotalCost cost = mCostList.get(position);
 
         ViewHolder holder = (ViewHolder) viewHolder;
 
         final String dateText = DateUtils.dateToText(mContext, cost.getDate());
-        final String title = String.format(mContext.getString(R.string.cost), dateText);
+        final String title = String.format(mContext.getString(R.string.total_expenses), dateText);
         holder.mTitle.setText(title);
-        holder.mTotalCost.setText(String.valueOf(cost.getAmount()));
+        holder.mTotalCost.setText(String.valueOf(cost.getTotalCost()) + "$");
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.domain.repository.CostRepository;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -17,10 +18,15 @@ public class CostRepositoryImpl implements CostRepository {
 
     static {
         mCosts = new ArrayList<>();
-        mCosts.add(new Cost("Transportation", "ZET", new Date(), 100.0));
-        mCosts.add(new Cost("Groceries", "ZET", new Date(), 100.0));
-        mCosts.add(new Cost("Entertainment", "ZET", new Date(), 100.0));
-        mCosts.add(new Cost("Bills", "HEP struja", new Date(), 100.0));
+        mCosts.add(new Cost("Transportation", "ZET", new Date(116, Calendar.JANUARY, 4, 0, 0, 0), 100.0));
+        mCosts.add(new Cost("Groceries", "ZET", new Date(116, Calendar.JANUARY, 4, 0, 0, 0), 200.0));
+        mCosts.add(new Cost("Entertainment", "ZET", new Date(116, Calendar.JANUARY, 4, 0, 0, 0), 300.0));
+        mCosts.add(new Cost("Bills", "HEP struja", new Date(116, Calendar.JANUARY, 4, 0, 0, 0), 400.0));
+
+        mCosts.add(new Cost("Transportation", "ZET", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 150.0));
+        mCosts.add(new Cost("Transportation", "ZET", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 110.0));
+        mCosts.add(new Cost("Transportation", "ZET", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 230.0));
+        mCosts.add(new Cost("Transportation", "ZET", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 300.0));
     }
 
     private CostRepositoryImpl() {
@@ -67,7 +73,7 @@ public class CostRepositoryImpl implements CostRepository {
 
     @Override
     public List<Cost> getCostsByDate(Date date) {
-        return new ArrayList<>();
+        throw new UnsupportedOperationException();
     }
 
     @Override
