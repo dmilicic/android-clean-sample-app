@@ -34,7 +34,7 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.cost_item_title)
+        @Bind(R.id.cost_item_category)
         public TextView mTitle;
 
         @Bind(R.id.cost_item_value)
