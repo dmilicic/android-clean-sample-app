@@ -64,7 +64,6 @@ public class DailyTotalCostConverter {
 
                 // repeat the process with the next item
                 dailyCosts = new ArrayList<>();
-                dailyCosts.add(nextCost);
                 currentDate = nextCost.getDate();
             }
         }
