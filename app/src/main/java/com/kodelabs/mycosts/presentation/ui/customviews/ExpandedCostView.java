@@ -19,7 +19,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 /**
  * Created by dmilicic on 1/6/16.
@@ -95,16 +94,12 @@ public class ExpandedCostView extends CardView {
 
         setTotalValue(dailyCost.getTotalCost());
 
+        // add the individual cost items
         List<Cost> costList = dailyCost.getCostList();
         Cost cost;
-
-        Timber.w("ADDING COST LIST");
-
         for (int idx = 0; idx < costList.size(); idx++) {
             cost = costList.get(idx);
             addCostItem(cost, idx);
-
-            Timber.w(cost.toString());
         }
     }
 }

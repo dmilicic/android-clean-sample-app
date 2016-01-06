@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:paddingBottom="16dp">
 
     <TextView
         android:id="@+id/cost_item_title"
@@ -21,31 +21,32 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/cost_item_title"
         android:layout_margin="16dp"
-        android:text="description"
-        android:textSize="10sp" />
+        android:text="This description describes a describable item"
+        android:textSize="12sp" />
 
+    <ImageButton
+        android:id="@+id/button_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@null"
+        android:src="@drawable/ic_dots_vertical" />
 
     <TextView
         android:id="@+id/cost_item_total_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/cost_item_title"
-        android:layout_marginLeft="50dp"
-        android:layout_toEndOf="@id/cost_item_title"
-        android:layout_toRightOf="@id/cost_item_title"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_toLeftOf="@id/button_menu"
+        android:layout_toStartOf="@id/button_menu"
         android:text="127$"
         android:textSize="15sp" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/cost_item_total_value"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@null"
-        android:src="@drawable/ic_dots_vertical" />
 
 
 </RelativeLayout>
