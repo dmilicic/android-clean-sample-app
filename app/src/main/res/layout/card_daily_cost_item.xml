@@ -30,37 +30,9 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:text="127$"
             android:textSize="40sp" />
-
-        <ImageButton
-            android:id="@+id/delete_btn"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@null"
-            android:contentDescription="Delete button"
-            android:src="@drawable/ic_close_black_24dp" />
-
-
-        <ImageButton
-            android:id="@+id/edit_btn"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@null"
-            android:contentDescription="Edit button"
-            android:src="@drawable/ic_edit_black_18dp" />
 
 
     </RelativeLayout>
