@@ -72,7 +72,7 @@ public class ExpandedCostView extends CardView {
 
     private void setTitle(Date date) {
         final String dateText = DateUtils.dateToText(getContext(), date);
-        final String title = String.format(mContext.getString(R.string.total_expenses), dateText);
+        final String title = String.format(getContext().getString(R.string.total_expenses), dateText);
         mTitle.setText(title);
     }
 
