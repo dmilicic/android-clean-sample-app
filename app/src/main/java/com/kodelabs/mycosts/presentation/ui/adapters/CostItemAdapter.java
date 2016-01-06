@@ -5,20 +5,21 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.presentation.model.DailyTotalCost;
 import com.kodelabs.mycosts.presentation.presenters.MainPresenter;
+import com.kodelabs.mycosts.presentation.ui.customviews.ExpandedCostView;
 import com.kodelabs.mycosts.presentation.ui.listeners.CostViewClickListener;
 import com.kodelabs.mycosts.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,51 +29,99 @@ import butterknife.ButterKnife;
  */
 public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements CostViewClickListener {
 
-    private      List<DailyTotalCost> mCostList;
-    private      Context              mContext;
-    public final MainPresenter.View   mView;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    private enum ViewType {
+        CONTRACTED_CARD, EXPANDED_CARD
+    }
 
-        @Bind(R.id.cost_item_category)
+    private List<DailyTotalCost> mCostList;
+    private Context              mContext;
+
+    private Set<Integer> mSelectedItems;
+
+    public final MainPresenter.View mView;
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @Bind(R.id.cost_item_title)
         public TextView mTitle;
 
-        @Bind(R.id.cost_item_value)
+        @Bind(R.id.cost_item_total_value)
         public TextView mTotalCost;
 
-        @Bind(R.id.edit_btn)
-        public ImageButton mEditBtn;
+        private CostViewClickListener mListener;
 
-        @Bind(R.id.delete_btn)
-        public ImageButton mDeleteBtn;
+        public void setup(DailyTotalCost dailyTotalCost) {
+            Context context = mTitle.getContext();
+
+            final String dateText = DateUtils.dateToText(context, dailyTotalCost.getDate());
+            final String title = String.format(context.getString(R.string.total_expenses), dateText);
+            mTitle.setText(title);
+            mTotalCost.setText(String.valueOf(dailyTotalCost.getTotalCost()) + "$");
+        }
+
+        @Override
+        public void onClick(View v) {
+            mListener.onClickView(getAdapterPosition());
+        }
 
         public ViewHolder(View v, final CostViewClickListener listener) {
             super(v);
             ButterKnife.bind(this, v);
-
-            // setup the delete button listener
-            mDeleteBtn.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onClickDelete(ViewHolder.this.getAdapterPosition());
-                }
-            });
-
-
-            // setup the edit button listener
-            mEditBtn.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onClickEdit(ViewHolder.this.getAdapterPosition());
-                }
-            });
+            v.setOnClickListener(this);
+            mListener = listener;
         }
     }
+
+    public static class ExpandedViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @Bind(R.id.card_expanded_costview)
+        public ExpandedCostView mExpandedCostView;
+
+        private CostViewClickListener mListener;
+
+        @Override
+        public void onClick(View v) {
+            mListener.onClickView(getAdapterPosition());
+        }
+
+        public ExpandedViewHolder(View v, final CostViewClickListener listener) {
+            super(v);
+            ButterKnife.bind(this, v);
+            v.setOnClickListener(this);
+            mListener = listener;
+        }
+    }
+
 
     public CostItemAdapter(MainPresenter.View view, Context context) {
         mCostList = new ArrayList<>();
         mView = view;
         mContext = context;
+        mSelectedItems = new HashSet<>();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        // check to see if a view at this position should be expanded or normal/contracted
+        if (mSelectedItems.contains(position))
+            return ViewType.EXPANDED_CARD.ordinal();
+
+        return ViewType.CONTRACTED_CARD.ordinal();
+    }
+
+    @Override
+    public void onClickView(int position) {
+
+        // If clicked on for the first time the view should be counted as selected, if clicked again the view
+        // should be considered unselected.
+        // Selected views will be shown as expanded cards while unselected will be shown as normal/contracted cards
+        if (!mSelectedItems.contains(position))
+            mSelectedItems.add(position);
+        else
+            mSelectedItems.remove(position);
+
+        notifyItemChanged(position);
     }
 
     @Override
@@ -106,11 +155,18 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View view = inflater.inflate(R.layout.card_cost_item, parent, false);
+        // check if this should be an expanded card
+        if (viewType == ViewType.EXPANDED_CARD.ordinal()) {
+            View view = inflater.inflate(R.layout.card_expanded_daily_cost_item, parent, false);
+            return new ExpandedViewHolder(view, this);
+        }
+
+        // this is a normal/contracted card
+        View view = inflater.inflate(R.layout.card_daily_cost_item, parent, false);
         return new ViewHolder(view, this);
     }
 
@@ -118,12 +174,12 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         DailyTotalCost cost = mCostList.get(position);
 
-        ViewHolder holder = (ViewHolder) viewHolder;
-
-        final String dateText = DateUtils.dateToText(mContext, cost.getDate());
-        final String title = String.format(mContext.getString(R.string.total_expenses), dateText);
-        holder.mTitle.setText(title);
-        holder.mTotalCost.setText(String.valueOf(cost.getTotalCost()) + "$");
+        // setup the views depending on the viewholder type
+        if (viewHolder instanceof ViewHolder) {
+            ((ViewHolder) viewHolder).setup(cost);
+        } else if (viewHolder instanceof ExpandedViewHolder) {
+            ((ExpandedViewHolder) viewHolder).mExpandedCostView.setDailyCost(cost);
+        }
     }
 
     @Override
