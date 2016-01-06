@@ -25,8 +25,6 @@ import butterknife.ButterKnife;
  */
 public class ExpandedCostView extends CardView {
 
-    private Context mContext;
-
     @Bind(R.id.cost_item_title)
     TextView mTitle;
 
@@ -53,8 +51,7 @@ public class ExpandedCostView extends CardView {
 
 
     private void init(Context context) {
-        mContext = context;
-        LayoutInflater inflater = (LayoutInflater) mContext
+        LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.expanded_cost_item, this);
 
@@ -62,25 +59,25 @@ public class ExpandedCostView extends CardView {
     }
 
     private void addCostItem(Cost cost, int position) {
-        CostItemView costView = new CostItemView(mContext);
+        CostItemView costView = new CostItemView(getContext());
         costView.setCost(cost);
 
         // every other cost item will have a different background so its easier on the eyes
         if (position % 2 == 0) {
-            costView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorBrightGray));
+            costView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorBrightGray));
         }
 
         mLinearLayout.addView(costView);
     }
 
     private void setTitle(Date date) {
-        final String dateText = DateUtils.dateToText(mContext, date);
+        final String dateText = DateUtils.dateToText(getContext(), date);
         final String title = String.format(mContext.getString(R.string.total_expenses), dateText);
         mTitle.setText(title);
     }
 
     private void setTotalValue(double value) {
-        String val = String.valueOf(value);
+        String val = String.format("%.2f$", value);
         mValue.setText(val);
     }
 
