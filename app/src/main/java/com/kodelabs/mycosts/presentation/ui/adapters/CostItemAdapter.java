@@ -7,13 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.presentation.model.DailyTotalCost;
 import com.kodelabs.mycosts.presentation.presenters.MainPresenter;
 import com.kodelabs.mycosts.presentation.ui.customviews.ExpandedCostView;
-import com.kodelabs.mycosts.presentation.ui.listeners.CostViewClickListener;
+import com.kodelabs.mycosts.presentation.ui.listeners.IndividualCostViewClickListener;
+import com.kodelabs.mycosts.presentation.ui.listeners.RecyclerViewClickListener;
 import com.kodelabs.mycosts.utils.DateUtils;
 
 import java.util.ArrayList;
@@ -27,7 +29,7 @@ import butterknife.ButterKnife;
 /**
  * Created by dmilicic on 12/13/15.
  */
-public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements CostViewClickListener {
+public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements RecyclerViewClickListener {
 
 
     private enum ViewType {
@@ -49,7 +51,7 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         @Bind(R.id.cost_item_total_value)
         public TextView mTotalCost;
 
-        private CostViewClickListener mListener;
+        private RecyclerViewClickListener mListener;
 
         public void setup(DailyTotalCost dailyTotalCost) {
             Context context = mTitle.getContext();
@@ -65,7 +67,7 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mListener.onClickView(getAdapterPosition());
         }
 
-        public ViewHolder(View v, final CostViewClickListener listener) {
+        public ViewHolder(View v, final RecyclerViewClickListener listener) {
             super(v);
             ButterKnife.bind(this, v);
             v.setOnClickListener(this);
@@ -73,23 +75,39 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    public static class ExpandedViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ExpandedViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, IndividualCostViewClickListener {
 
         @Bind(R.id.card_expanded_costview)
         public ExpandedCostView mExpandedCostView;
 
-        private CostViewClickListener mListener;
+        private RecyclerViewClickListener mListener;
+
+        @Override
+        public void onClickDelete() {
+            mListener.onClickDelete(getAdapterPosition());
+        }
+
+        @Override
+        public void onClickEdit() {
+            mListener.onClickEdit(getAdapterPosition());
+        }
 
         @Override
         public void onClick(View v) {
             mListener.onClickView(getAdapterPosition());
         }
 
-        public ExpandedViewHolder(View v, final CostViewClickListener listener) {
+        public ExpandedViewHolder(View v, final RecyclerViewClickListener listener) {
             super(v);
             ButterKnife.bind(this, v);
             v.setOnClickListener(this);
+
+            // this listener is our adapter
             mListener = listener;
+
+            // set a listener for edit, delete calls
+            mExpandedCostView.setCostViewClickListener(this);
         }
     }
 
@@ -126,12 +144,14 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onClickDelete(int position) {
-//        Cost cost = mCostList.get(position);
+        Toast.makeText(mContext, "DELETE", Toast.LENGTH_SHORT).show();
+//        DailyTotalCost cost = mCostList.get(position);
 //        mView.onClickDeleteCost(cost);
     }
 
     @Override
     public void onClickEdit(int position) {
+        Toast.makeText(mContext, "EDIT", Toast.LENGTH_SHORT).show();
 //        Cost cost = mCostList.get(position);
 //        mView.onClickEditCost(cost, position);
     }

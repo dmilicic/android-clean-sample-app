@@ -1,8 +1,8 @@
 package com.kodelabs.mycosts.presentation.ui.customviews;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
@@ -20,7 +20,7 @@ import butterknife.OnClick;
 /**
  * Created by dmilicic on 1/6/16.
  */
-public class CostItemView extends RelativeLayout implements OnMenuItemClickListener {
+public class CostItemView extends RelativeLayout {
 
     @Bind(R.id.cost_item_title)
     TextView mCategoryView;
@@ -34,8 +34,11 @@ public class CostItemView extends RelativeLayout implements OnMenuItemClickListe
     @Bind(R.id.button_menu)
     ImageButton mMenuButton;
 
-    public CostItemView(Context context) {
+    private OnMenuItemClickListener mMenuItemClickListener;
+
+    public CostItemView(Context context, @NonNull OnMenuItemClickListener menuItemClickListener) {
         super(context);
+        mMenuItemClickListener = menuItemClickListener;
         init(context);
     }
 
@@ -47,24 +50,12 @@ public class CostItemView extends RelativeLayout implements OnMenuItemClickListe
         ButterKnife.bind(this, view);
     }
 
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.item_edit:
-                // TODO edit item
-                return true;
-            case R.id.item_delete:
-                // TODO delete item
-                return true;
-            default:
-                return false;
-        }
-    }
-
     @OnClick(R.id.button_menu)
     void onClickMenu() {
         PopupMenu popupMenu = new PopupMenu(getContext(), mMenuButton);
-        popupMenu.setOnMenuItemClickListener(this);
+
+        if (mMenuItemClickListener != null) popupMenu.setOnMenuItemClickListener(mMenuItemClickListener);
+
         popupMenu.inflate(R.menu.menu_cost_item);
         popupMenu.show();
     }
