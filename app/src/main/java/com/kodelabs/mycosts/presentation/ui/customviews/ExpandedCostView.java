@@ -1,16 +1,13 @@
 package com.kodelabs.mycosts.presentation.ui.customviews;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
 import com.kodelabs.mycosts.R;
@@ -24,11 +21,12 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 /**
  * Created by dmilicic on 1/6/16.
  */
-public class ExpandedCostView extends CardView implements OnMenuItemClickListener {
+public class ExpandedCostView extends CardView {
 
     @Bind(R.id.cost_item_title)
     TextView mTitle;
@@ -40,7 +38,7 @@ public class ExpandedCostView extends CardView implements OnMenuItemClickListene
     LinearLayout mLinearLayout;
 
     @Nullable
-    private IndividualCostViewClickListener mCostViewClickListener;
+    private IndividualCostViewClickListener mIndividualCostViewClickListener;
 
     public ExpandedCostView(Context context) {
         super(context);
@@ -65,32 +63,13 @@ public class ExpandedCostView extends CardView implements OnMenuItemClickListene
         ButterKnife.bind(this, view);
     }
 
-    public void setCostViewClickListener(@NonNull IndividualCostViewClickListener listener) {
-        mCostViewClickListener = listener;
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-
-        // since the listener is set after this object is created it is possible that it can be null, avoid that :)
-        if (mCostViewClickListener == null)
-            return false;
-
-        switch (item.getItemId()) {
-            case R.id.item_edit:
-                mCostViewClickListener.onClickEdit();
-                return true;
-            case R.id.item_delete:
-                mCostViewClickListener.onClickDelete();
-                return true;
-            default:
-                return false;
-        }
+    public void setIndividualCostViewClickListener(
+            @Nullable IndividualCostViewClickListener individualCostViewClickListener) {
+        mIndividualCostViewClickListener = individualCostViewClickListener;
     }
 
     private void addCostItem(Cost cost, int position) {
-        CostItemView costView = new CostItemView(getContext(), this);
-        costView.setCost(cost);
+        CostItemView costView = new CostItemView(getContext(), mIndividualCostViewClickListener, cost);
 
         // every other cost item will have a different background so its easier on the eyes
         if (position % 2 == 0) {
@@ -126,6 +105,7 @@ public class ExpandedCostView extends CardView implements OnMenuItemClickListene
         Cost cost;
         for (int idx = 0; idx < costList.size(); idx++) {
             cost = costList.get(idx);
+            Timber.w(cost.toString());
             addCostItem(cost, idx);
         }
     }

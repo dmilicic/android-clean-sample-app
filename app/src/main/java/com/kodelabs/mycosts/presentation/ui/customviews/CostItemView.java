@@ -1,8 +1,8 @@
 package com.kodelabs.mycosts.presentation.ui.customviews;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.model.Cost;
+import com.kodelabs.mycosts.presentation.ui.listeners.IndividualCostViewClickListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,7 +21,7 @@ import butterknife.OnClick;
 /**
  * Created by dmilicic on 1/6/16.
  */
-public class CostItemView extends RelativeLayout {
+public class CostItemView extends RelativeLayout implements OnMenuItemClickListener {
 
     @Bind(R.id.cost_item_title)
     TextView mCategoryView;
@@ -34,11 +35,15 @@ public class CostItemView extends RelativeLayout {
     @Bind(R.id.button_menu)
     ImageButton mMenuButton;
 
-    private OnMenuItemClickListener mMenuItemClickListener;
+    private IndividualCostViewClickListener mCostViewClickListener;
 
-    public CostItemView(Context context, @NonNull OnMenuItemClickListener menuItemClickListener) {
+    private Cost mCost;
+
+    public CostItemView(Context context,
+                        IndividualCostViewClickListener costViewClickListener, Cost cost) {
         super(context);
-        mMenuItemClickListener = menuItemClickListener;
+        mCostViewClickListener = costViewClickListener;
+        mCost = cost;
         init(context);
     }
 
@@ -48,14 +53,37 @@ public class CostItemView extends RelativeLayout {
         View view = inflater.inflate(R.layout.individual_cost_item, this);
 
         ButterKnife.bind(this, view);
+
+        setCategory(mCost.getCategory());
+        setDescription(mCost.getDescription());
+        setValue(mCost.getAmount());
     }
+
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+
+        // since the listener is set after this object is created it is possible that it can be null, avoid that :)
+        if (mCostViewClickListener == null)
+            return false;
+
+        switch (item.getItemId()) {
+            case R.id.item_edit:
+                mCostViewClickListener.onClickEdit(mCost.getId());
+                return true;
+            case R.id.item_delete:
+                mCostViewClickListener.onClickDelete(mCost.getId());
+                return true;
+            default:
+                return false;
+        }
+    }
+
 
     @OnClick(R.id.button_menu)
     void onClickMenu() {
         PopupMenu popupMenu = new PopupMenu(getContext(), mMenuButton);
-
-        if (mMenuItemClickListener != null) popupMenu.setOnMenuItemClickListener(mMenuItemClickListener);
-
+        popupMenu.setOnMenuItemClickListener(this);
         popupMenu.inflate(R.menu.menu_cost_item);
         popupMenu.show();
     }
@@ -71,11 +99,5 @@ public class CostItemView extends RelativeLayout {
 
     private void setDescription(String description) {
         mDescriptionView.setText(description);
-    }
-
-    public void setCost(Cost cost) {
-        setCategory(cost.getCategory());
-        setDescription(cost.getDescription());
-        setValue(cost.getAmount());
     }
 }

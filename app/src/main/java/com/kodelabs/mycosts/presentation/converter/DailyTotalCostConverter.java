@@ -35,10 +35,7 @@ public class DailyTotalCostConverter {
 
                 // initialize the process
                 dailyCosts = new ArrayList<>();
-                dailyCosts.add(cost);
                 currentDate = cost.getDate();
-
-                continue;
             }
 
             // add the current element to the list of daily costs - for the current date

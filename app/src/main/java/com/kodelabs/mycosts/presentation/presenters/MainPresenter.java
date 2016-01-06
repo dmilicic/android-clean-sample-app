@@ -15,7 +15,7 @@ public interface MainPresenter extends BasePresenter {
 
         void showCosts(List<DailyTotalCost> costs);
 
-        void onClickDeleteCost(Cost cost);
+        void onClickDeleteCost(long costId);
 
         void onClickEditCost(Cost cost, int position);
 
@@ -24,7 +24,9 @@ public interface MainPresenter extends BasePresenter {
         void onCostRetrieved(Cost cost);
     }
 
+    void getAllCosts();
+
     void getCostById(long id);
 
-    void deleteCost(Cost cost);
+    void deleteCost(long costId);
 }

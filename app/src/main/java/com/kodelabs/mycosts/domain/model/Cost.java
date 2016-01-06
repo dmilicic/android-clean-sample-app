@@ -14,7 +14,15 @@ public class Cost {
 
     public Cost(String category, String description, Date date, double amount) {
 
-        // cost will be uniquely identified by the current timestamp
+        // cost will be "uniquely" identified by the current timestamp
+
+        // TODO remove this after debugging
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         mId = new Date().getTime();
 
         mCategory = category;

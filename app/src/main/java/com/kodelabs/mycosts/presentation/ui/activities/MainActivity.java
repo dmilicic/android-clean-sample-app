@@ -236,13 +236,13 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     }
 
     @Override
-    public void onClickDeleteCost(final Cost cost) {
+    public void onClickDeleteCost(final long costId) {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
-                        mMainPresenter.deleteCost(cost);
+                        mMainPresenter.deleteCost(costId);
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -261,9 +261,8 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
     @Override
     public void onCostDeleted(Cost cost) {
-        if (mAdapter != null) {
-            mAdapter.deleteCost(cost);
-        }
+        // we deleted some data, RELOAD ALL THE THINGS!
+        mMainPresenter.getAllCosts();
     }
 
     @Override

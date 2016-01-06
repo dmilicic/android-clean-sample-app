@@ -7,7 +7,7 @@ public interface RecyclerViewClickListener {
 
     void onClickView(int position);
 
-    void onClickEdit(int position);
+    void onClickEdit(int position, long costId);
 
-    void onClickDelete(int position);
+    void onClickDelete(int position, long costId);
 }

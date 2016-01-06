@@ -5,7 +5,7 @@ package com.kodelabs.mycosts.presentation.ui.listeners;
  */
 public interface IndividualCostViewClickListener {
 
-    void onClickDelete();
+    void onClickDelete(long costId);
 
-    void onClickEdit();
+    void onClickEdit(long costId);
 }

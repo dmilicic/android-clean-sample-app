@@ -12,16 +12,15 @@ import com.kodelabs.mycosts.domain.repository.CostRepository;
  */
 public class DeleteCostInteractorImpl extends AbstractInteractor implements DeleteCostInteractor {
 
-    private Cost                          mCost;
+    private long                          mCostId;
     private DeleteCostInteractor.Callback mCallback;
     private CostRepository                mCostRepository;
 
-
-    public DeleteCostInteractorImpl(Executor threadExecutor, MainThread mainThread,
-                                    Cost cost,
+    public DeleteCostInteractorImpl(Executor threadExecutor,
+                                    MainThread mainThread, long costId,
                                     Callback callback, CostRepository costRepository) {
         super(threadExecutor, mainThread);
-        mCost = cost;
+        mCostId = costId;
         mCallback = callback;
         mCostRepository = costRepository;
     }
@@ -29,14 +28,17 @@ public class DeleteCostInteractorImpl extends AbstractInteractor implements Dele
     @Override
     protected void run() {
 
+        // check if this object even exists
+        final Cost cost = mCostRepository.getCostById(mCostId);
+
         // delete this cost item
-        mCostRepository.delete(mCost);
+        if (cost != null) mCostRepository.delete(cost);
 
         // notify on the main thread
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
-                mCallback.onCostDeleted(mCost);
+                mCallback.onCostDeleted(cost);
             }
         });
     }

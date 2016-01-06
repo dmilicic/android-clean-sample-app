@@ -36,10 +36,7 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
 
     @Override
     public void resume() {
-        // get latest cost list
-        GetCostsInteractor getCostsInteractor = new GetCostsInteractorImpl(mExecutor, mMainThread,
-                CostRepositoryImpl.getInstance(), this, new Date(), new Date());
-        getCostsInteractor.execute();
+        getAllCosts();
     }
 
     @Override
@@ -63,17 +60,25 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
     }
 
     @Override
+    public void getAllCosts() {
+        // get all costs
+        GetCostsInteractor getCostsInteractor = new GetCostsInteractorImpl(mExecutor, mMainThread,
+                CostRepositoryImpl.getInstance(), this, new Date(), new Date());
+        getCostsInteractor.execute();
+    }
+
+    @Override
     public void onCostsRetrieved(List<Cost> costList) {
         List<DailyTotalCost> dailyTotalCosts = DailyTotalCostConverter.convertCostsToDailyCosts(costList);
         mView.showCosts(dailyTotalCosts);
     }
 
     @Override
-    public void deleteCost(Cost cost) {
+    public void deleteCost(long costId) {
 
         // delete this cost item in a background thread
         DeleteCostInteractor deleteCostInteractor = new DeleteCostInteractorImpl(mExecutor,
-                mMainThread, cost, this, CostRepositoryImpl.getInstance());
+                mMainThread, costId, this, CostRepositoryImpl.getInstance());
         deleteCostInteractor.execute();
     }
 

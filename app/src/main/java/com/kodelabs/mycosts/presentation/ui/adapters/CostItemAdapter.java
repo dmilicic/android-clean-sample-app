@@ -84,13 +84,13 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         private RecyclerViewClickListener mListener;
 
         @Override
-        public void onClickDelete() {
-            mListener.onClickDelete(getAdapterPosition());
+        public void onClickDelete(long costId) {
+            mListener.onClickDelete(getAdapterPosition(), costId);
         }
 
         @Override
-        public void onClickEdit() {
-            mListener.onClickEdit(getAdapterPosition());
+        public void onClickEdit(long costId) {
+            mListener.onClickEdit(getAdapterPosition(), costId);
         }
 
         @Override
@@ -107,7 +107,7 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             mListener = listener;
 
             // set a listener for edit, delete calls
-            mExpandedCostView.setCostViewClickListener(this);
+            mExpandedCostView.setIndividualCostViewClickListener(this);
         }
     }
 
@@ -143,35 +143,44 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onClickDelete(int position) {
-        Toast.makeText(mContext, "DELETE", Toast.LENGTH_SHORT).show();
-//        DailyTotalCost cost = mCostList.get(position);
-//        mView.onClickDeleteCost(cost);
+    public void onClickDelete(int position, long costId) {
+
+        // in case we are deleting the last element from a day, mark that day as unselected, no point in showing an empty day
+        if (mSelectedItems.contains(position) && mCostList.get(position).getCostList().size() == 1)
+            mSelectedItems.remove(position);
+
+
+        mView.onClickDeleteCost(costId);
     }
 
     @Override
-    public void onClickEdit(int position) {
-        Toast.makeText(mContext, "EDIT", Toast.LENGTH_SHORT).show();
+    public void onClickEdit(int position, long costId) {
+        Toast.makeText(mContext, String.format("EDIT: %d", costId), Toast.LENGTH_SHORT).show();
 //        Cost cost = mCostList.get(position);
 //        mView.onClickEditCost(cost, position);
     }
 
     public void addNewCosts(@NonNull List<DailyTotalCost> costList) {
+        // clean up old data
+        if (mCostList != null) {
+            mCostList.clear();
+        }
         mCostList = costList;
-        this.notifyDataSetChanged();
+
+        notifyDataSetChanged();
     }
 
     public void deleteCost(@NonNull Cost cost) {
-        int position = mCostList.indexOf(cost);
-        mCostList.remove(position);
-        notifyItemRemoved(position);
-        notifyItemRangeChanged(position, mCostList.size());
+//        int position = mCostList.indexOf(cost);
+//        mCostList.remove(position);
+//        notifyItemRemoved(position);
+//        notifyItemRangeChanged(position, mCostList.size());
     }
 
     public void onCostUpdated(@NonNull DailyTotalCost cost, int position) {
-        mCostList.remove(position);
-        mCostList.add(position, cost);
-        notifyItemChanged(position);
+//        mCostList.remove(position);
+//        mCostList.add(position, cost);
+//        notifyItemChanged(position);
     }
 
     @Override
