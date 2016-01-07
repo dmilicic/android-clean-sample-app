@@ -1,12 +1,8 @@
 package com.kodelabs.mycosts.presentation.ui.activities;
 
-import android.animation.Animator;
-import android.animation.Animator.AnimatorListener;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -16,13 +12,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.widget.Toast;
 
 import com.kodelabs.mycosts.MainThreadImpl;
 import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.interactors.base.ThreadExecutor;
 import com.kodelabs.mycosts.domain.model.Cost;
+import com.kodelabs.mycosts.presentation.animation.AnimatorFactory;
 import com.kodelabs.mycosts.presentation.model.DailyTotalCost;
 import com.kodelabs.mycosts.presentation.presenters.MainPresenter;
 import com.kodelabs.mycosts.presentation.presenters.impl.MainPresenterImpl;
@@ -32,7 +28,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import io.codetail.animation.SupportAnimator;
 import io.codetail.widget.RevealFrameLayout;
 import timber.log.Timber;
 
@@ -82,95 +77,17 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                enterReveal();
+
+                // intent to start another activity
+                final Intent intent = new Intent(MainActivity.this, AddCostActivity.class);
+
+                // do the animation
+                AnimatorFactory.enterReveal(mFab, mRevealLayout, intent, MainActivity.this);
             }
         });
 
         mMainPresenter = new MainPresenterImpl(ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(), this);
-
-    }
-
-    private void enterReveal() {
-
-        // get the center for the clipping circle
-        int cx = (mFab.getLeft() + mFab.getRight()) / 2;
-        int cy = (mFab.getTop() + mFab.getBottom()) / 2;
-
-        // get the final radius for the clipping circle
-        int finalRadius = (int) Math.sqrt(Math.pow(cx, 2) + Math.pow(cy, 2)); // hypotenuse to top left
-
-        // intent to start another activity
-        final Intent intent = new Intent(MainActivity.this, AddCostActivity.class);
-
-        AnimatorListener animatorListener = new AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                startActivity(intent);
-                overridePendingTransition(0, R.anim.hold);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        };
-
-
-        mFab.setVisibility(View.INVISIBLE);
-
-        // make the view visible and start the animation
-        mRevealLayout.setVisibility(View.VISIBLE);
-
-
-        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-
-            Animator anim =
-                    ViewAnimationUtils.createCircularReveal(mRevealLayout, cx, cy, 0, finalRadius);
-
-            anim.setDuration(350);
-            anim.addListener(animatorListener);
-            anim.start();
-        } else {
-            // create the animator for this view (the start radius is zero)
-            SupportAnimator anim =
-                    io.codetail.animation.ViewAnimationUtils.createCircularReveal(mRevealLayout, cx, cy, 0, finalRadius);
-
-            anim.setDuration(350);
-            anim.addListener(new SupportAnimator.AnimatorListener() {
-                @Override
-                public void onAnimationStart() {
-
-                }
-
-                @Override
-                public void onAnimationEnd() {
-                    startActivity(intent);
-                    overridePendingTransition(0, R.anim.hold);
-                }
-
-                @Override
-                public void onAnimationCancel() {
-
-                }
-
-                @Override
-                public void onAnimationRepeat() {
-
-                }
-            });
-            anim.start();
-        }
 
     }
 
@@ -279,6 +196,5 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
     @Override
     public void showError(String message) {
-
     }
 }
