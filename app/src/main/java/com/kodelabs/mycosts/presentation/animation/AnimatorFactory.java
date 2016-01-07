@@ -30,14 +30,11 @@ public class AnimatorFactory {
      * @param intent       The intent used to start another activity.
      * @param activity     The activity is needed as a context object.
      */
-    public static void enterReveal(View src, ViewGroup revealLayout, final Intent intent, final Activity activity) {
+    public static void enterReveal(ViewGroup revealLayout, final Intent intent, final Activity activity) {
 
-        // get the center for the clipping circle
-        int cx = (src.getLeft() + src.getRight()) / 2;
-        int cy = (src.getTop() + src.getBottom()) / 2;
-
-        // get the final radius for the clipping circle
-        int finalRadius = (int) Math.sqrt(Math.pow(cx, 2) + Math.pow(cy, 2)); // hypotenuse to top left
+        int cx = (revealLayout.getLeft() + revealLayout.getRight());
+        int cy = revealLayout.getTop();
+        int finalRadius = Math.max(revealLayout.getWidth(), revealLayout.getHeight());
 
         AnimatorListener animatorListener = new AnimatorListener() {
             @Override
@@ -63,7 +60,7 @@ public class AnimatorFactory {
         };
 
 
-        src.setVisibility(View.INVISIBLE);
+//        src.setVisibility(View.INVISIBLE);
 
         // make the view visible and start the animation
         revealLayout.setVisibility(View.VISIBLE);

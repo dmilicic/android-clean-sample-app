@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,9 +42,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     @Bind(R.id.reveal_layout)
     RevealFrameLayout mRevealLayout;
 
-    @Bind(R.id.fab)
-    FloatingActionButton mFab;
-
     private MainPresenter mMainPresenter;
 
     private CostItemAdapter mAdapter;
@@ -69,22 +65,9 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
 
-
         // setup toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                // intent to start another activity
-                final Intent intent = new Intent(MainActivity.this, AddCostActivity.class);
-
-                // do the animation
-                AnimatorFactory.enterReveal(mFab, mRevealLayout, intent, MainActivity.this);
-            }
-        });
 
         mMainPresenter = new MainPresenterImpl(ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(), this);
@@ -96,8 +79,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         super.onResume();
         mMainPresenter.resume();
 
-        // reset the layouts
-        mFab.setVisibility(View.VISIBLE);
+        // reset the layout
         mRevealLayout.setVisibility(View.INVISIBLE);
 
         Timber.w("ONRESUME");
@@ -106,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
@@ -118,9 +102,19 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_add_cost:
+                // intent to start another activity
+                final Intent intent = new Intent(MainActivity.this, AddCostActivity.class);
+
+                // do the animation
+                AnimatorFactory.enterReveal(mRevealLayout, intent, MainActivity.this);
+
+                break;
+            case R.id.action_about:
+                break;
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
