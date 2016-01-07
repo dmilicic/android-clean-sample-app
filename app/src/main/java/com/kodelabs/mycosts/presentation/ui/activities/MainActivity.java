@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
                 break;
             case R.id.action_about:
+                final Intent aboutIntent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(aboutIntent);
                 break;
             default:
                 break;

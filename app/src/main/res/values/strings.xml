@@ -1,12 +1,23 @@
 <resources>
     <string name="app_name">My Costs</string>
+
+    <!-- Actions -->
     <string name="action_about">About</string>
     <string name="action_add_cost">Add new cost</string>
+
+    <!-- General -->
     <string name="today_s">Today\'s</string>
     <string name="yesterday_s">Yesterday\'s</string>
     <string name="total_expenses">%1$s total costs</string>
     <string name="cost">%1$s cost</string>
+
+    <!-- About -->
+    <string name="made_by">Made by Dario Milicic</string>
+    <string name="kodelabs_website">www.kodelabs.co</string>
+
+    <!-- Titles -->
     <string name="title_activity_add_cost">Add cost</string>
+    <string name="title_activity_about">About</string>
 
     <string-array name="category_array">
         <item>Entertainment</item>
@@ -25,4 +36,5 @@
         <item>Utilities</item>
         <item>Other</item>
     </string-array>
+
 </resources>
