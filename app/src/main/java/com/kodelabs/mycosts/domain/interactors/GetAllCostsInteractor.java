@@ -10,7 +10,7 @@ import java.util.List;
  * <p/>
  * This interactor is responsible for retrieving a list of costs from the database.
  */
-public interface GetCostsInteractor extends Interactor {
+public interface GetAllCostsInteractor extends Interactor {
 
     interface Callback {
         void onCostsRetrieved(List<Cost> costList);

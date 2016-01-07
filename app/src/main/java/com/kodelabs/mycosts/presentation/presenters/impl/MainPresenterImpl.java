@@ -3,9 +3,9 @@ package com.kodelabs.mycosts.presentation.presenters.impl;
 import com.kodelabs.mycosts.domain.executor.Executor;
 import com.kodelabs.mycosts.domain.executor.MainThread;
 import com.kodelabs.mycosts.domain.interactors.DeleteCostInteractor;
-import com.kodelabs.mycosts.domain.interactors.GetCostsInteractor;
+import com.kodelabs.mycosts.domain.interactors.GetAllCostsInteractor;
 import com.kodelabs.mycosts.domain.interactors.impl.DeleteCostInteractorImpl;
-import com.kodelabs.mycosts.domain.interactors.impl.GetCostsInteractorImpl;
+import com.kodelabs.mycosts.domain.interactors.impl.GetAllCostsInteractorImpl;
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.presentation.converter.DailyTotalCostConverter;
 import com.kodelabs.mycosts.presentation.model.DailyTotalCost;
@@ -20,7 +20,7 @@ import java.util.List;
  * Created by dmilicic on 12/13/15.
  */
 public class MainPresenterImpl extends AbstractPresenter implements MainPresenter,
-        GetCostsInteractor.Callback,
+        GetAllCostsInteractor.Callback,
         DeleteCostInteractor.Callback {
 
     private MainPresenter.View mView;
@@ -59,7 +59,7 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
     @Override
     public void getAllCosts() {
         // get all costs
-        GetCostsInteractor getCostsInteractor = new GetCostsInteractorImpl(mExecutor, mMainThread,
+        GetAllCostsInteractor getCostsInteractor = new GetAllCostsInteractorImpl(mExecutor, mMainThread,
                 CostRepositoryImpl.getInstance(), this, new Date(), new Date());
         getCostsInteractor.execute();
     }

@@ -2,7 +2,7 @@ package com.kodelabs.mycosts.domain.interactors.impl;
 
 import com.kodelabs.mycosts.domain.executor.Executor;
 import com.kodelabs.mycosts.domain.executor.MainThread;
-import com.kodelabs.mycosts.domain.interactors.GetCostsInteractor;
+import com.kodelabs.mycosts.domain.interactors.GetAllCostsInteractor;
 import com.kodelabs.mycosts.domain.interactors.base.AbstractInteractor;
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.domain.repository.CostRepository;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by dmilicic on 12/10/15.
  */
-public class GetCostsInteractorImpl extends AbstractInteractor implements GetCostsInteractor {
+public class GetAllCostsInteractorImpl extends AbstractInteractor implements GetAllCostsInteractor {
 
     private final Date           mStartDate;
     private final Date           mEndDate;
@@ -36,8 +36,8 @@ public class GetCostsInteractorImpl extends AbstractInteractor implements GetCos
         }
     };
 
-    public GetCostsInteractorImpl(Executor threadExecutor, MainThread mainThread, CostRepository costRepository,
-                                  Callback callback, Date startDate, Date endDate) {
+    public GetAllCostsInteractorImpl(Executor threadExecutor, MainThread mainThread, CostRepository costRepository,
+                                     Callback callback, Date startDate, Date endDate) {
         super(threadExecutor, mainThread);
 
         if (costRepository == null || callback == null || startDate == null || endDate == null) {
