@@ -3,10 +3,8 @@ package com.kodelabs.mycosts.presentation.presenters.impl;
 import com.kodelabs.mycosts.domain.executor.Executor;
 import com.kodelabs.mycosts.domain.executor.MainThread;
 import com.kodelabs.mycosts.domain.interactors.DeleteCostInteractor;
-import com.kodelabs.mycosts.domain.interactors.GetCostByIdInteractor;
 import com.kodelabs.mycosts.domain.interactors.GetCostsInteractor;
 import com.kodelabs.mycosts.domain.interactors.impl.DeleteCostInteractorImpl;
-import com.kodelabs.mycosts.domain.interactors.impl.GetCostByIdInteractorImpl;
 import com.kodelabs.mycosts.domain.interactors.impl.GetCostsInteractorImpl;
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.presentation.converter.DailyTotalCostConverter;
@@ -23,7 +21,6 @@ import java.util.List;
  */
 public class MainPresenterImpl extends AbstractPresenter implements MainPresenter,
         GetCostsInteractor.Callback,
-        GetCostByIdInteractor.Callback,
         DeleteCostInteractor.Callback {
 
     private MainPresenter.View mView;
@@ -82,17 +79,6 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
         deleteCostInteractor.execute();
     }
 
-    @Override
-    public void getCostById(long id) {
-        GetCostByIdInteractor costByIdInteractor = new GetCostByIdInteractorImpl(
-                mExecutor, mMainThread, id, CostRepositoryImpl.getInstance(), this);
-        costByIdInteractor.execute();
-    }
-
-    @Override
-    public void onCostRetrieved(Cost cost) {
-        mView.onCostRetrieved(cost);
-    }
 
     @Override
     public void onCostDeleted(Cost cost) {

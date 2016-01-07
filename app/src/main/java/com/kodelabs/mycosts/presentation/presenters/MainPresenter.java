@@ -17,16 +17,12 @@ public interface MainPresenter extends BasePresenter {
 
         void onClickDeleteCost(long costId);
 
-        void onClickEditCost(Cost cost, int position);
+        void onClickEditCost(long costId, int position);
 
         void onCostDeleted(Cost cost);
-
-        void onCostRetrieved(Cost cost);
     }
 
     void getAllCosts();
-
-    void getCostById(long id);
 
     void deleteCost(long costId);
 }

@@ -7,10 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.kodelabs.mycosts.R;
-import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.presentation.model.DailyTotalCost;
 import com.kodelabs.mycosts.presentation.presenters.MainPresenter;
 import com.kodelabs.mycosts.presentation.ui.customviews.ExpandedCostView;
@@ -155,9 +153,7 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public void onClickEdit(int position, long costId) {
-        Toast.makeText(mContext, String.format("EDIT: %d", costId), Toast.LENGTH_SHORT).show();
-//        Cost cost = mCostList.get(position);
-//        mView.onClickEditCost(cost, position);
+        mView.onClickEditCost(costId, position);
     }
 
     public void addNewCosts(@NonNull List<DailyTotalCost> costList) {
@@ -168,19 +164,6 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         mCostList = costList;
 
         notifyDataSetChanged();
-    }
-
-    public void deleteCost(@NonNull Cost cost) {
-//        int position = mCostList.indexOf(cost);
-//        mCostList.remove(position);
-//        notifyItemRemoved(position);
-//        notifyItemRangeChanged(position, mCostList.size());
-    }
-
-    public void onCostUpdated(@NonNull DailyTotalCost cost, int position) {
-//        mCostList.remove(position);
-//        mCostList.add(position, cost);
-//        notifyItemChanged(position);
     }
 
     @Override

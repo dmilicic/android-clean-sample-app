@@ -83,5 +83,4 @@ public class DailyTotalCostConverterTest {
         assertEquals(2, dailyTotalCosts.get(2).getCostList().size());
         assertEquals(360.0, dailyTotalCosts.get(2).getTotalCost(), 0.00001);
     }
-
 }

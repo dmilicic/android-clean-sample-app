@@ -38,12 +38,9 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements MainPresenter.View {
 
-    public static final String EXTRA_COST_ID       = "extra_cost_id_key";
-    public static final String EXTRA_COST_POSITION = "extra_cost_position_key";
+    public static final String EXTRA_COST_ID = "extra_cost_id_key";
 
     public static final int EDIT_COST_REQUEST = 0;
-
-    public static final int UNDEFINED = -1;
 
     @Bind(R.id.expenses_list)
     RecyclerView mRecyclerView;
@@ -57,9 +54,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     private MainPresenter mMainPresenter;
 
     private CostItemAdapter mAdapter;
-
-    private int mEditedPosition;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,19 +213,17 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // check if everything is ok
         if (requestCode == EDIT_COST_REQUEST && resultCode == RESULT_OK) {
-            // TODO get the cost id and update it in the recycler view
 
-            // extract the cost id and its adapter position from the intent
-            long costId = data.getLongExtra(EXTRA_COST_ID, UNDEFINED);
-            mEditedPosition = data.getIntExtra(EXTRA_COST_POSITION, UNDEFINED);
-
-            mMainPresenter.getCostById(costId);
+            // let the user know the edit succeded
+            Toast.makeText(this, "Updated!", Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void showCosts(List<DailyTotalCost> costs) {
+        // signal the adapter that it has data to show
         mAdapter.addNewCosts(costs);
     }
 
@@ -266,22 +258,13 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     }
 
     @Override
-    public void onClickEditCost(Cost cost, int position) {
+    public void onClickEditCost(long costId, int position) {
 
         // intent to start another activity
         final Intent intent = new Intent(MainActivity.this, EditCostActivity.class);
-        intent.putExtra(EXTRA_COST_ID, cost.getId());
-        intent.putExtra(EXTRA_COST_POSITION, position);
+        intent.putExtra(EXTRA_COST_ID, costId);
 
         startActivityForResult(intent, EDIT_COST_REQUEST);
-    }
-
-    @Override
-    public void onCostRetrieved(Cost cost) {
-        if (mEditedPosition != UNDEFINED) {
-            Toast.makeText(this, "Updated!", Toast.LENGTH_LONG).show();
-//            mAdapter.onCostUpdated(cost, mEditedPosition);
-        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.kodelabs.mycosts.presentation.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.MenuItem;
@@ -112,7 +113,13 @@ public class EditCostActivity extends AbstractCostActivity implements EditCostPr
 
     @Override
     public void onCostUpdated(Cost cost) {
-        Toast.makeText(this, "Saved!", Toast.LENGTH_LONG).show();
+
+        // build the data to send
+        Intent data = new Intent();
+        data.putExtra(MainActivity.EXTRA_COST_ID, cost.getId());
+
+        // mark that this was a success
+        setResult(RESULT_OK, data);
         finish();
     }
 
