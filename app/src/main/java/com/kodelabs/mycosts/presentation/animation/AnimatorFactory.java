@@ -19,6 +19,8 @@ import io.codetail.animation.SupportAnimator;
  */
 public class AnimatorFactory {
 
+    public static final int REVEAL_ANIMATION_LENGTH = 350; // in milliseconds
+
     /**
      * Creates a circural reveal animation from a given source view. While revealing it uses the reveal layout and after
      * the animation completes, it starts the activity given in the intent.
@@ -71,7 +73,7 @@ public class AnimatorFactory {
             Animator anim =
                     ViewAnimationUtils.createCircularReveal(revealLayout, cx, cy, 0, finalRadius);
 
-            anim.setDuration(350);
+            anim.setDuration(REVEAL_ANIMATION_LENGTH);
             anim.addListener(animatorListener);
             anim.start();
         } else {
@@ -79,7 +81,7 @@ public class AnimatorFactory {
             SupportAnimator anim =
                     io.codetail.animation.ViewAnimationUtils.createCircularReveal(revealLayout, cx, cy, 0, finalRadius);
 
-            anim.setDuration(350);
+            anim.setDuration(REVEAL_ANIMATION_LENGTH);
             anim.addListener(new SupportAnimator.AnimatorListener() {
                 @Override
                 public void onAnimationStart() {
