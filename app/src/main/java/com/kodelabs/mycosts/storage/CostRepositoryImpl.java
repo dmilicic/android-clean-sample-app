@@ -2,6 +2,7 @@ package com.kodelabs.mycosts.storage;
 
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.domain.repository.CostRepository;
+import com.kodelabs.mycosts.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,15 +19,23 @@ public class CostRepositoryImpl implements CostRepository {
 
     static {
         mCosts = new ArrayList<>();
-        mCosts.add(new Cost("Transportation", "ZET", new Date(116, Calendar.JANUARY, 4, 0, 0, 0), 100.0));
-        mCosts.add(new Cost("Groceries", "ZET", new Date(116, Calendar.JANUARY, 4, 0, 0, 0), 200.0));
-        mCosts.add(new Cost("Entertainment", "ZET", new Date(116, Calendar.JANUARY, 4, 0, 0, 0), 300.0));
-        mCosts.add(new Cost("Bills", "HEP struja", new Date(116, Calendar.JANUARY, 4, 0, 0, 0), 400.0));
 
-        mCosts.add(new Cost("Transportation", "ZET", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 150.0));
-        mCosts.add(new Cost("Transportation", "ZET", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 110.0));
-        mCosts.add(new Cost("Transportation", "ZET", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 230.0));
-        mCosts.add(new Cost("Transportation", "ZET", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 300.0));
+        // get the today's date for some sample cost items
+        Calendar calendar = Calendar.getInstance();
+        Date today = calendar.getTime();
+        today = DateUtils.truncateHours(today); // set hours, minutes and seconds to 0 for simplicity
+
+        // get yesterday as well
+        calendar.add(Calendar.DATE, -1);
+        Date yesterday = calendar.getTime();
+        yesterday = DateUtils.truncateHours(yesterday); // set hours, minutes and seconds to 0 for simplicity
+
+
+        mCosts.add(new Cost("Groceries", "Bought some X and some Y", today, 100.0));
+        mCosts.add(new Cost("Bills", "Bill for electricity", today, 50.0));
+
+        mCosts.add(new Cost("Transportation", "I took an Uber ride", yesterday, 10.0));
+        mCosts.add(new Cost("Entertainment", "I went to see Star Wars!", yesterday, 50.0));
     }
 
     private CostRepositoryImpl() {
@@ -35,6 +44,7 @@ public class CostRepositoryImpl implements CostRepository {
 
     private static CostRepository sCostRepository;
 
+    // we will make this a singleton
     public static CostRepository getInstance() {
         if (sCostRepository == null) {
             sCostRepository = new CostRepositoryImpl();
@@ -69,11 +79,6 @@ public class CostRepositoryImpl implements CostRepository {
         }
 
         return null;
-    }
-
-    @Override
-    public List<Cost> getCostsByDate(Date date) {
-        throw new UnsupportedOperationException();
     }
 
     @Override

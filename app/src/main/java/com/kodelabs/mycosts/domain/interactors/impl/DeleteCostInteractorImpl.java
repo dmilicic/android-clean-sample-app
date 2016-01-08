@@ -8,6 +8,8 @@ import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.domain.repository.CostRepository;
 
 /**
+ * Interactor responsible for deleting a cost from the database.
+ * <p/>
  * Created by dmilicic on 12/26/15.
  */
 public class DeleteCostInteractorImpl extends AbstractInteractor implements DeleteCostInteractor {

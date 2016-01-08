@@ -6,12 +6,12 @@ import android.support.annotation.NonNull;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.kodelabs.mycosts.MainThreadImpl;
 import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.interactors.base.ThreadExecutor;
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.presentation.presenters.EditCostPresenter;
 import com.kodelabs.mycosts.presentation.presenters.impl.EditCostPresenterImpl;
+import com.kodelabs.mycosts.threading.MainThreadImpl;
 import com.kodelabs.mycosts.utils.DateUtils;
 
 /**
@@ -107,7 +107,6 @@ public class EditCostActivity extends AbstractCostActivity implements EditCostPr
         }
 
         return super.onOptionsItemSelected(item);
-
     }
 
 
@@ -135,6 +134,6 @@ public class EditCostActivity extends AbstractCostActivity implements EditCostPr
 
     @Override
     public void showError(String message) {
-
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

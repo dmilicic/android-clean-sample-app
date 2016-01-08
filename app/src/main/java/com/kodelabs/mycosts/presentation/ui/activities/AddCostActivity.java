@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.kodelabs.mycosts.MainThreadImpl;
+import com.kodelabs.mycosts.threading.MainThreadImpl;
 import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.interactors.base.ThreadExecutor;
 import com.kodelabs.mycosts.presentation.presenters.AddCostPresenter;

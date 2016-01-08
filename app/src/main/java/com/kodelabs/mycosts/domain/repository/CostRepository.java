@@ -2,7 +2,6 @@ package com.kodelabs.mycosts.domain.repository;
 
 import com.kodelabs.mycosts.domain.model.Cost;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,8 +14,6 @@ public interface CostRepository {
     void update(Cost cost);
 
     Cost getCostById(long id);
-
-    List<Cost> getCostsByDate(Date date);
 
     List<Cost> getAllCosts();
 

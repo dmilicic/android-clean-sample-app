@@ -42,6 +42,11 @@ public class EditCostPresenterImpl extends AbstractPresenter
     }
 
     @Override
+    public void noCostFound() {
+        mView.showError("No cost found :(");
+    }
+
+    @Override
     public void editCost(Cost cost, Date date, double amount, String description, String category) {
         EditCostInteractor editCostInteractor = new EditCostInteractorImpl(mExecutor,
                 mMainThread, this, CostRepositoryImpl.getInstance(), cost,

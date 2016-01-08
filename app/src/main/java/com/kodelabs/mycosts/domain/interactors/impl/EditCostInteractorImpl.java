@@ -10,6 +10,8 @@ import com.kodelabs.mycosts.domain.repository.CostRepository;
 import java.util.Date;
 
 /**
+ * This interactor handles editing a cost item. It should update it if it exists in the database, otherwise it should insert it.
+ * <p/>
  * Created by dmilicic on 12/26/15.
  */
 public class EditCostInteractorImpl extends AbstractInteractor implements EditCostInteractor {
@@ -42,14 +44,25 @@ public class EditCostInteractorImpl extends AbstractInteractor implements EditCo
     @Override
     protected void run() {
 
-        // update the cost
-        mUpdatedCost.setAmount(mAmount);
-        mUpdatedCost.setCategory(mCategory);
-        mUpdatedCost.setDate(mDate);
-        mUpdatedCost.setDescription(mDescription);
+        // check if it exists in the database
+        long costId = mUpdatedCost.getId();
+        Cost costToEdit = mCostRepository.getCostById(costId);
 
-        // update in the db
-        mCostRepository.update(mUpdatedCost);
+        // there is no item with this ID in the database, lets insert it
+        if (costToEdit == null) {
+            costToEdit = new Cost(mCategory, mDescription, mDate, mAmount);
+            mCostRepository.insert(costToEdit);
+        } else { // we found the item in the database, lets update it
+
+            // update the cost
+            costToEdit.setAmount(mAmount);
+            costToEdit.setCategory(mCategory);
+            costToEdit.setDate(mDate);
+            costToEdit.setDescription(mDescription);
+
+            // update in the db
+            mCostRepository.update(mUpdatedCost);
+        }
 
         // notify on main thread that the update was successful
         mMainThread.post(new Runnable() {

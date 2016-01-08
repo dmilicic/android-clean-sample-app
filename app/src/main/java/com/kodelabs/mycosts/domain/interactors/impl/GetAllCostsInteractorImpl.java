@@ -12,6 +12,9 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
+ * This interactor handles getting all costs from the database in a sorted manner. Costs should be sorted by date with
+ * the most recent one coming first and the oldest one coming last.
+ * <p/>
  * Created by dmilicic on 12/10/15.
  */
 public class GetAllCostsInteractorImpl extends AbstractInteractor implements GetAllCostsInteractor {

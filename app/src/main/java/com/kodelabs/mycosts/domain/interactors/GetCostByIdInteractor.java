@@ -10,5 +10,7 @@ public interface GetCostByIdInteractor extends Interactor {
 
     interface Callback {
         void onCostRetrieved(Cost cost);
+
+        void noCostFound();
     }
 }

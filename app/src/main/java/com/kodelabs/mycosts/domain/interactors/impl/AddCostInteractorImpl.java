@@ -10,6 +10,9 @@ import com.kodelabs.mycosts.domain.repository.CostRepository;
 import java.util.Date;
 
 /**
+ * This interactor is responsible for creating and adding a new cost item into the database. It should get all the data needed to create
+ * a new cost object and it should insert it in our repository.
+ * <p/>
  * Created by dmilicic on 12/23/15.
  */
 public class AddCostInteractorImpl extends AbstractInteractor implements AddCostInteractor {
@@ -40,6 +43,7 @@ public class AddCostInteractorImpl extends AbstractInteractor implements AddCost
         Cost cost = new Cost(mCategory, mDescription, mDate, mAmount);
         mCostRepository.insert(cost);
 
+        // notify on the main thread that we have inserted this item
         mMainThread.post(new Runnable() {
             @Override
             public void run() {
