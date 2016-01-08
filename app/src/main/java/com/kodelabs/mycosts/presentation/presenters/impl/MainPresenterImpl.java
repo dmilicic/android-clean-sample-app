@@ -13,7 +13,6 @@ import com.kodelabs.mycosts.presentation.presenters.AbstractPresenter;
 import com.kodelabs.mycosts.presentation.presenters.MainPresenter;
 import com.kodelabs.mycosts.storage.CostRepositoryImpl;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,7 +59,7 @@ public class MainPresenterImpl extends AbstractPresenter implements MainPresente
     public void getAllCosts() {
         // get all costs
         GetAllCostsInteractor getCostsInteractor = new GetAllCostsInteractorImpl(mExecutor, mMainThread,
-                CostRepositoryImpl.getInstance(), this, new Date(), new Date());
+                CostRepositoryImpl.getInstance(), this);
         getCostsInteractor.execute();
     }
 

@@ -9,7 +9,6 @@ import com.kodelabs.mycosts.domain.repository.CostRepository;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,10 +16,8 @@ import java.util.List;
  */
 public class GetAllCostsInteractorImpl extends AbstractInteractor implements GetAllCostsInteractor {
 
-    private final Date           mStartDate;
-    private final Date           mEndDate;
-    private       Callback       mCallback;
-    private       CostRepository mCostRepository;
+    private Callback       mCallback;
+    private CostRepository mCostRepository;
 
     private Comparator<Cost> mCostComparator = new Comparator<Cost>() {
         @Override
@@ -37,15 +34,13 @@ public class GetAllCostsInteractorImpl extends AbstractInteractor implements Get
     };
 
     public GetAllCostsInteractorImpl(Executor threadExecutor, MainThread mainThread, CostRepository costRepository,
-                                     Callback callback, Date startDate, Date endDate) {
+                                     Callback callback) {
         super(threadExecutor, mainThread);
 
-        if (costRepository == null || callback == null || startDate == null || endDate == null) {
+        if (costRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
         }
 
-        mStartDate = startDate;
-        mEndDate = endDate;
         mCostRepository = costRepository;
         mCallback = callback;
     }
@@ -53,7 +48,7 @@ public class GetAllCostsInteractorImpl extends AbstractInteractor implements Get
     @Override
     protected void run() {
         // retrieve the costs from the database
-        final List<Cost> costs = mCostRepository.getCostsInRange(mStartDate, mEndDate);
+        final List<Cost> costs = mCostRepository.getAllCosts();
 
         // sort them so the most recent cost items come first, and oldest comes last
         Collections.sort(costs, mCostComparator);

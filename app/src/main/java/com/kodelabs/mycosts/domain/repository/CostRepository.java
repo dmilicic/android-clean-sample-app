@@ -18,7 +18,7 @@ public interface CostRepository {
 
     List<Cost> getCostsByDate(Date date);
 
-    List<Cost> getCostsInRange(Date startDate, Date endDate);
+    List<Cost> getAllCosts();
 
     void delete(Cost cost);
 }

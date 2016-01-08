@@ -77,7 +77,7 @@ public class CostRepositoryImpl implements CostRepository {
     }
 
     @Override
-    public List<Cost> getCostsInRange(Date startDate, Date endDate) {
+    public List<Cost> getAllCosts() {
 
         // return a copy of the items in "database"
         List<Cost> copy = new ArrayList<>();
