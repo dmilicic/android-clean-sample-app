@@ -26,7 +26,7 @@ public abstract class AbstractInteractor implements Interactor {
         mMainThread = mainThread;
     }
 
-    protected abstract void run();
+    public abstract void run();
 
     public void cancel() {
         mIsCanceled = true;

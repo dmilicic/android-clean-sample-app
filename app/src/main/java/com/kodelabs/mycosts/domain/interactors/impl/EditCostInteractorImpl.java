@@ -42,7 +42,7 @@ public class EditCostInteractorImpl extends AbstractInteractor implements EditCo
     }
 
     @Override
-    protected void run() {
+    public void run() {
 
         // check if it exists in the database
         long costId = mUpdatedCost.getId();

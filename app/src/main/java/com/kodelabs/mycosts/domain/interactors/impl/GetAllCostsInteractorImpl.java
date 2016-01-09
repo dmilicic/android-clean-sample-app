@@ -49,7 +49,7 @@ public class GetAllCostsInteractorImpl extends AbstractInteractor implements Get
     }
 
     @Override
-    protected void run() {
+    public void run() {
         // retrieve the costs from the database
         final List<Cost> costs = mCostRepository.getAllCosts();
 

@@ -28,7 +28,7 @@ public class DeleteCostInteractorImpl extends AbstractInteractor implements Dele
     }
 
     @Override
-    protected void run() {
+    public void run() {
 
         // check if this object even exists
         final Cost cost = mCostRepository.getCostById(mCostId);

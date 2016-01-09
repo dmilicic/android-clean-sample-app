@@ -1,6 +1,7 @@
-package com.kodelabs.mycosts.domain.interactors.base;
+package com.kodelabs.mycosts.domain.executor.impl;
 
 import com.kodelabs.mycosts.domain.executor.Executor;
+import com.kodelabs.mycosts.domain.interactors.base.AbstractInteractor;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

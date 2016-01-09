@@ -30,7 +30,7 @@ public class GetCostByIdInteractorImpl extends AbstractInteractor implements Get
     }
 
     @Override
-    protected void run() {
+    public void run() {
         final Cost cost = mCostRepository.getCostById(mCostId);
 
         mMainThread.post(new Runnable() {

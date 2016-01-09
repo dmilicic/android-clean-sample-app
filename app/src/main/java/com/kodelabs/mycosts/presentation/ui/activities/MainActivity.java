@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.kodelabs.mycosts.threading.MainThreadImpl;
 import com.kodelabs.mycosts.R;
-import com.kodelabs.mycosts.domain.interactors.base.ThreadExecutor;
+import com.kodelabs.mycosts.domain.executor.impl.ThreadExecutor;
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.presentation.animation.AnimatorFactory;
 import com.kodelabs.mycosts.presentation.model.DailyTotalCost;
