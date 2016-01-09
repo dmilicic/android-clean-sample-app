@@ -2,7 +2,6 @@ package com.kodelabs.mycosts.domain.interactors;
 
 import com.kodelabs.mycosts.domain.executor.Executor;
 import com.kodelabs.mycosts.domain.executor.MainThread;
-import com.kodelabs.mycosts.domain.interactors.GetCostByIdInteractor.Callback;
 import com.kodelabs.mycosts.domain.interactors.impl.GetCostByIdInteractorImpl;
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.domain.repository.CostRepository;
@@ -24,25 +23,8 @@ import static org.mockito.Mockito.when;
  */
 public class GetCostByIdTest {
 
-    // create a mock callback, for bigger callbacks we would use Mockito
-    private GetCostByIdInteractor.Callback mCallback = new Callback() {
-
-        public boolean mCostRetrieved = false;
-        public boolean mCostNotFound = false;
-
-        @Override
-        public void onCostRetrieved(Cost cost) {
-            mCostRetrieved = true;
-        }
-
-        @Override
-        public void noCostFound() {
-            mCostNotFound = true;
-        }
-    };
-
-    @Mock private Executor                       mExecutor;
     private       MainThread                     mMainThread;
+    @Mock private Executor                       mExecutor;
     @Mock private CostRepository                 mCostRepository;
     @Mock private GetCostByIdInteractor.Callback mMockedCallback;
 
