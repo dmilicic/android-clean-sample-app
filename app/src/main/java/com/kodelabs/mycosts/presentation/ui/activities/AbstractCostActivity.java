@@ -1,7 +1,6 @@
 package com.kodelabs.mycosts.presentation.ui.activities;
 
 import android.app.DatePickerDialog;
-import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -75,7 +74,8 @@ public abstract class AbstractCostActivity extends AppCompatActivity
 
     @OnClick(R.id.input_date)
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment(this);
+        DatePickerFragment newFragment = new DatePickerFragment();
+        newFragment.setListener(this);
         newFragment.show(getFragmentManager(), "datePicker");
     }
 

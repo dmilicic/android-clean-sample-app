@@ -42,7 +42,7 @@ public class CostRepositoryImpl implements CostRepository {
         // private constructor
     }
 
-    private static CostRepository sCostRepository;
+    private static volatile CostRepository sCostRepository;
 
     // we will make this a singleton
     public static CostRepository getInstance() {
