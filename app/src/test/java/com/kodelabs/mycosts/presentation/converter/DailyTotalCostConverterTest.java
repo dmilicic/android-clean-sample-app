@@ -2,12 +2,12 @@ package com.kodelabs.mycosts.presentation.converter;
 
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.presentation.model.DailyTotalCost;
+import com.kodelabs.mycosts.util.TestDateUtil;
 
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -24,17 +24,17 @@ public class DailyTotalCostConverterTest {
 
         // init test
         mCosts = new ArrayList<>();
-        mCosts.add(new Cost("Transportation", "ZET", new Date(116, Calendar.JANUARY, 4, 0, 0, 0), 100.0));
-        mCosts.add(new Cost("Groceries", "ZET", new Date(116, Calendar.JANUARY, 4, 0, 0, 0), 200.0));
-        mCosts.add(new Cost("Entertainment", "ZET", new Date(116, Calendar.JANUARY, 4, 0, 0, 0), 300.0));
-        mCosts.add(new Cost("Bills", "HEP struja", new Date(116, Calendar.JANUARY, 4, 0, 0, 0), 400.0));
+        mCosts.add(new Cost("Transportation", "ZET", TestDateUtil.getDate(2016, Calendar.JANUARY, 4), 100.0));
+        mCosts.add(new Cost("Groceries", "ZET", TestDateUtil.getDate(2016, Calendar.JANUARY, 4), 200.0));
+        mCosts.add(new Cost("Entertainment", "ZET", TestDateUtil.getDate(2016, Calendar.JANUARY, 4), 300.0));
+        mCosts.add(new Cost("Bills", "HEP struja", TestDateUtil.getDate(2016, Calendar.JANUARY, 4), 400.0));
 
-        mCosts.add(new Cost("Transportation", "Description", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 150.0));
-        mCosts.add(new Cost("Transportation", "Description", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 110.0));
-        mCosts.add(new Cost("Transportation", "Description", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 240.0));
+        mCosts.add(new Cost("Transportation", "Description", TestDateUtil.getDate(2016, Calendar.JANUARY, 2), 150.0));
+        mCosts.add(new Cost("Transportation", "Description", TestDateUtil.getDate(2016, Calendar.JANUARY, 2), 110.0));
+        mCosts.add(new Cost("Transportation", "Description", TestDateUtil.getDate(2016, Calendar.JANUARY, 2), 240.0));
 
-        mCosts.add(new Cost("Transportation", "Description", new Date(116, Calendar.JANUARY, 1, 0, 0, 0), 130.0));
-        mCosts.add(new Cost("Transportation", "Description", new Date(116, Calendar.JANUARY, 1, 0, 0, 0), 230.0));
+        mCosts.add(new Cost("Transportation", "Description", TestDateUtil.getDate(2016, Calendar.JANUARY, 1), 130.0));
+        mCosts.add(new Cost("Transportation", "Description", TestDateUtil.getDate(2016, Calendar.JANUARY, 1), 230.0));
 
         List<DailyTotalCost> dailyTotalCosts = DailyTotalCostConverter.convertCostsToDailyCosts(mCosts);
 
@@ -59,14 +59,14 @@ public class DailyTotalCostConverterTest {
 
         // init test
         mCosts = new ArrayList<>();
-        mCosts.add(new Cost("Transportation", "ZET", new Date(116, Calendar.JANUARY, 4, 0, 0, 0), 100.0));
+        mCosts.add(new Cost("Transportation", "ZET", TestDateUtil.getDate(2016, Calendar.JANUARY, 4), 100.0));
 
-        mCosts.add(new Cost("Transportation", "Description", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 150.0));
-        mCosts.add(new Cost("Transportation", "Description", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 110.0));
-        mCosts.add(new Cost("Transportation", "Description", new Date(116, Calendar.JANUARY, 2, 0, 0, 0), 240.0));
+        mCosts.add(new Cost("Transportation", "Description", TestDateUtil.getDate(2016, Calendar.JANUARY, 2), 150.0));
+        mCosts.add(new Cost("Transportation", "Description", TestDateUtil.getDate(2016, Calendar.JANUARY, 2), 110.0));
+        mCosts.add(new Cost("Transportation", "Description", TestDateUtil.getDate(2016, Calendar.JANUARY, 2), 240.0));
 
-        mCosts.add(new Cost("Transportation", "Description", new Date(116, Calendar.JANUARY, 1, 0, 0, 0), 130.0));
-        mCosts.add(new Cost("Transportation", "Description", new Date(116, Calendar.JANUARY, 1, 0, 0, 0), 230.0));
+        mCosts.add(new Cost("Transportation", "Description", TestDateUtil.getDate(2016, Calendar.JANUARY, 1), 130.0));
+        mCosts.add(new Cost("Transportation", "Description", TestDateUtil.getDate(2016, Calendar.JANUARY, 1), 230.0));
 
         List<DailyTotalCost> dailyTotalCosts = DailyTotalCostConverter.convertCostsToDailyCosts(mCosts);
 
