@@ -71,7 +71,7 @@ public class GetCostByIdTest {
         Cost dummyCost = new Cost("Category", "description", new Date(), 100.0);
         when(mCostRepository.getCostById(mCostId))
                 .thenReturn(dummyCost);
-        
+
         GetCostByIdInteractorImpl interactor = new GetCostByIdInteractorImpl(mExecutor, mMainThread, mCostId, mCostRepository, mMockedCallback);
         interactor.run();
 

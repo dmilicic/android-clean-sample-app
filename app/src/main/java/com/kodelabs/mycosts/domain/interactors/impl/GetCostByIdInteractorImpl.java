@@ -33,11 +33,24 @@ public class GetCostByIdInteractorImpl extends AbstractInteractor implements Get
     public void run() {
         final Cost cost = mCostRepository.getCostById(mCostId);
 
-        mMainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                mCallback.onCostRetrieved(cost);
-            }
-        });
+        if (cost == null) { // we didn't find the cost we were looking for
+
+            // notify this on the main thread
+            mMainThread.post(new Runnable() {
+                @Override
+                public void run() {
+                    mCallback.noCostFound();
+                }
+            });
+        } else { // we found it!
+
+            // send it on the main thread
+            mMainThread.post(new Runnable() {
+                @Override
+                public void run() {
+                    mCallback.onCostRetrieved(cost);
+                }
+            });
+        }
     }
 }
