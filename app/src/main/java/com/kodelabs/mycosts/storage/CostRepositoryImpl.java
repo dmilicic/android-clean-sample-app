@@ -30,12 +30,24 @@ public class CostRepositoryImpl implements CostRepository {
         Date yesterday = calendar.getTime();
         yesterday = DateUtils.truncateHours(yesterday); // set hours, minutes and seconds to 0 for simplicity
 
+        // Since each cost is uniquely identified by a timestamp, we should make sure that the sample costs are
+        // not created in the same millisecond, we simply pause a bit after each cost creation.
+        try {
+            mCosts.add(new Cost("Groceries", "Bought some X and some Y", today, 100.0));
+            Thread.sleep(100);
+            mCosts.add(new Cost("Bills", "Bill for electricity", today, 50.0));
+            Thread.sleep(100);
 
-        mCosts.add(new Cost("Groceries", "Bought some X and some Y", today, 100.0));
-        mCosts.add(new Cost("Bills", "Bill for electricity", today, 50.0));
 
-        mCosts.add(new Cost("Transportation", "I took an Uber ride", yesterday, 10.0));
-        mCosts.add(new Cost("Entertainment", "I went to see Star Wars!", yesterday, 50.0));
+            Thread.sleep(100);
+            mCosts.add(new Cost("Transportation", "I took an Uber ride", yesterday, 10.0));
+            Thread.sleep(100);
+            mCosts.add(new Cost("Entertainment", "I went to see Star Wars!", yesterday, 50.0));
+
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private CostRepositoryImpl() {
