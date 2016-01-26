@@ -38,7 +38,7 @@ I've found that the most practical way to build Android apps with Clean is with 
 
 Although I am omitting a middle layer, that is not actually true. Because my presentation layer actually includes **Presenters**, this provides a good separation of code between presentation and domain layers. Communication between layers is done using interfaces as explained in the blog linked above. In short, the inner layer only uses an interface while its the job of the outer layer to implement it. This way the inner layer only cares about calling methods on an interface, without actually knowing what is going on under the hood.
 
-I am currently writing an article with more info on this topic and will link it here when its done.
+**I am currently writing an article with more info on this topic and will link it here when its done.**
 
 ## Future improvements
 
