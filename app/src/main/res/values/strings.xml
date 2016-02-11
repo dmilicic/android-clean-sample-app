@@ -34,6 +34,7 @@
         <item>Transfer</item>
         <item>Transportation</item>
         <item>Utilities</item>
+        <item>Bills</item>
         <item>Other</item>
     </string-array>
 

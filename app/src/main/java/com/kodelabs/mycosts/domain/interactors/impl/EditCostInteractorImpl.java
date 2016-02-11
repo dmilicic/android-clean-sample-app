@@ -61,7 +61,7 @@ public class EditCostInteractorImpl extends AbstractInteractor implements EditCo
             costToEdit.setDescription(mDescription);
 
             // update in the db
-            mCostRepository.update(mUpdatedCost);
+            mCostRepository.update(costToEdit);
         }
 
         // notify on main thread that the update was successful

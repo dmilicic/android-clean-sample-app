@@ -2,9 +2,11 @@ package com.kodelabs.mycosts.storage;
 
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.domain.repository.CostRepository;
+import com.kodelabs.mycosts.storage.converters.StorageModelConverter;
+import com.kodelabs.mycosts.storage.model.Cost_Table;
 import com.kodelabs.mycosts.utils.DateUtils;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -14,39 +16,48 @@ import java.util.List;
  */
 public class CostRepositoryImpl implements CostRepository {
 
-    // this represents a temporary database
-    private static volatile List<Cost> mCosts;
-
+    // let's generate some dummy data
     static {
-        mCosts = new ArrayList<>();
 
-        // get the today's date for some sample cost items
-        Calendar calendar = Calendar.getInstance();
-        Date today = calendar.getTime();
-        today = DateUtils.truncateHours(today); // set hours, minutes and seconds to 0 for simplicity
+        List<com.kodelabs.mycosts.storage.model.Cost> costs = SQLite.select()
+                .from(com.kodelabs.mycosts.storage.model.Cost.class)
+                .queryList();
 
-        // get yesterday as well
-        calendar.add(Calendar.DATE, -1);
-        Date yesterday = calendar.getTime();
-        yesterday = DateUtils.truncateHours(yesterday); // set hours, minutes and seconds to 0 for simplicity
+        // if the database is empty, let's add some dummies
+        if (costs.size() == 0) {
 
-        // Since each cost is uniquely identified by a timestamp, we should make sure that the sample costs are
-        // not created in the same millisecond, we simply pause a bit after each cost creation.
-        try {
-            mCosts.add(new Cost("Groceries", "Bought some X and some Y", today, 100.0));
-            Thread.sleep(100);
-            mCosts.add(new Cost("Bills", "Bill for electricity", today, 50.0));
-            Thread.sleep(100);
+            // get the today's date for some sample cost items
+            Calendar calendar = Calendar.getInstance();
+            Date today = calendar.getTime();
+            today = DateUtils.truncateHours(today); // set hours, minutes and seconds to 0 for simplicity
+
+            // get yesterday as well
+            calendar.add(Calendar.DATE, -1);
+            Date yesterday = calendar.getTime();
+            yesterday = DateUtils.truncateHours(yesterday); // set hours, minutes and seconds to 0 for simplicity
+
+            // Since each cost is uniquely identified by a timestamp, we should make sure that the sample costs are
+            // not created in the same millisecond, we simply pause a bit after each cost creation.
+            try {
+                com.kodelabs.mycosts.storage.model.Cost cost = new com.kodelabs.mycosts.storage.model.Cost("Groceries", "Bought some X and some Y", today, 100.0);
+                cost.insert();
+                Thread.sleep(100);
+                cost = new com.kodelabs.mycosts.storage.model.Cost("Bills", "Bill for electricity", today, 50.0);
+                cost.insert();
+                Thread.sleep(100);
 
 
-            Thread.sleep(100);
-            mCosts.add(new Cost("Transportation", "I took an Uber ride", yesterday, 10.0));
-            Thread.sleep(100);
-            mCosts.add(new Cost("Entertainment", "I went to see Star Wars!", yesterday, 50.0));
+                Thread.sleep(100);
+                cost = new com.kodelabs.mycosts.storage.model.Cost("Transportation", "I took an Uber ride", yesterday, 10.0);
+                cost.insert();
+                Thread.sleep(100);
+                cost = new com.kodelabs.mycosts.storage.model.Cost("Entertainment", "I went to see Star Wars!", yesterday, 50.0);
+                cost.insert();
 
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -67,46 +78,41 @@ public class CostRepositoryImpl implements CostRepository {
 
     @Override
     public void insert(Cost item) {
-        mCosts.add(item);
+        com.kodelabs.mycosts.storage.model.Cost dbItem = StorageModelConverter.convertToStorageModel(item);
+        dbItem.save();
     }
 
     @Override
     public void update(Cost cost) {
-        // remove the old one with the same id
-        mCosts.remove(cost);
-
-        // add the new one back as the "edited" version
-        mCosts.add(cost);
+        com.kodelabs.mycosts.storage.model.Cost dbItem = StorageModelConverter.convertToStorageModel(cost);
+        dbItem.update();
     }
 
     @Override
     public Cost getCostById(long id) {
-        Cost currentCost = null;
+        com.kodelabs.mycosts.storage.model.Cost cost = SQLite
+                .select()
+                .from(com.kodelabs.mycosts.storage.model.Cost.class)
+                .where(Cost_Table.id.eq(id))
+                .querySingle();
 
-        // find cost by id
-        for (int i = 0; i < mCosts.size(); i++) {
-            currentCost = mCosts.get(i);
-            if (currentCost.getId() == id)
-                return currentCost;
-        }
-
-        return null;
+        return StorageModelConverter.convertToDomainModel(cost);
     }
 
     @Override
     public List<Cost> getAllCosts() {
 
-        // return a copy of the items in "database"
-        List<Cost> copy = new ArrayList<>();
-        for (int i = 0; i < mCosts.size(); i++) {
-            copy.add(mCosts.get(i));
-        }
+        List<com.kodelabs.mycosts.storage.model.Cost> costs = SQLite
+                .select()
+                .from(com.kodelabs.mycosts.storage.model.Cost.class)
+                .queryList();
 
-        return copy;
+        return StorageModelConverter.convertListToDomainModel(costs);
     }
 
     @Override
     public void delete(Cost cost) {
-        mCosts.remove(cost);
+        com.kodelabs.mycosts.storage.model.Cost dbItem = StorageModelConverter.convertToStorageModel(cost);
+        dbItem.delete();
     }
 }

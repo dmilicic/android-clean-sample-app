@@ -23,6 +23,19 @@ public class Cost {
         mAmount = amount;
     }
 
+
+    /**
+     * This constructor should be used when we are converting an already existing cost item to this POJO, so we already have
+     * an id variable.
+     */
+    public Cost(String category, String description, Date date, double amount, long id) {
+        mId = id;
+        mCategory = category;
+        mDescription = description;
+        mDate = date;
+        mAmount = amount;
+    }
+
     public void setCategory(String category) {
         mCategory = category;
     }
