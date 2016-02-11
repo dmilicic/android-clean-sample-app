@@ -7,9 +7,9 @@ import com.kodelabs.mycosts.domain.interactors.GetCostByIdInteractor;
 import com.kodelabs.mycosts.domain.interactors.impl.EditCostInteractorImpl;
 import com.kodelabs.mycosts.domain.interactors.impl.GetCostByIdInteractorImpl;
 import com.kodelabs.mycosts.domain.model.Cost;
+import com.kodelabs.mycosts.domain.repository.CostRepository;
 import com.kodelabs.mycosts.presentation.presenters.AbstractPresenter;
 import com.kodelabs.mycosts.presentation.presenters.EditCostPresenter;
-import com.kodelabs.mycosts.storage.CostRepositoryImpl;
 
 import java.util.Date;
 
@@ -20,18 +20,24 @@ public class EditCostPresenterImpl extends AbstractPresenter
         implements EditCostPresenter, GetCostByIdInteractor.Callback, EditCostInteractor.Callback {
 
     private EditCostPresenter.View mView;
-
+    private CostRepository         mCostRepository;
 
     public EditCostPresenterImpl(Executor executor, MainThread mainThread,
-                                 View view) {
+                                 View view, CostRepository costRepository) {
         super(executor, mainThread);
         mView = view;
+        mCostRepository = costRepository;
     }
 
     @Override
     public void getCostById(long id) {
-        GetCostByIdInteractor getCostByIdInteractor = new GetCostByIdInteractorImpl(mExecutor, mMainThread,
-                id, CostRepositoryImpl.getInstance(), this);
+        GetCostByIdInteractor getCostByIdInteractor = new GetCostByIdInteractorImpl(
+                mExecutor,
+                mMainThread,
+                id,
+                mCostRepository,
+                this
+        );
         getCostByIdInteractor.execute();
     }
 
@@ -48,9 +54,14 @@ public class EditCostPresenterImpl extends AbstractPresenter
 
     @Override
     public void editCost(Cost cost, Date date, double amount, String description, String category) {
-        EditCostInteractor editCostInteractor = new EditCostInteractorImpl(mExecutor,
-                mMainThread, this, CostRepositoryImpl.getInstance(), cost,
-                category, description, date, amount);
+        EditCostInteractor editCostInteractor = new EditCostInteractorImpl(
+                mExecutor,
+                mMainThread,
+                this,
+                mCostRepository,
+                cost,
+                category, description, date, amount
+        );
         editCostInteractor.execute();
     }
 

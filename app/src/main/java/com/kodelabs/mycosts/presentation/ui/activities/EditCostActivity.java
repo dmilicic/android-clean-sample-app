@@ -11,6 +11,7 @@ import com.kodelabs.mycosts.domain.executor.impl.ThreadExecutor;
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.presentation.presenters.EditCostPresenter;
 import com.kodelabs.mycosts.presentation.presenters.impl.EditCostPresenterImpl;
+import com.kodelabs.mycosts.storage.CostRepositoryImpl;
 import com.kodelabs.mycosts.threading.MainThreadImpl;
 import com.kodelabs.mycosts.utils.DateUtils;
 
@@ -30,7 +31,9 @@ public class EditCostActivity extends AbstractCostActivity implements EditCostPr
         mPresenter = new EditCostPresenterImpl(
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
-                this);
+                this,
+                new CostRepositoryImpl(this)
+        );
 
         // extract the cost id of the item we want to edit
         long costId = getIntent().getLongExtra(MainActivity.EXTRA_COST_ID, -1);

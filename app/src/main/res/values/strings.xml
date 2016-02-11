@@ -19,6 +19,9 @@
     <string name="title_activity_add_cost">Add cost</string>
     <string name="title_activity_about">About</string>
 
+    <string name="account_type">com.kodelabs.mycosts.account</string>
+    <string name="stub_content_authority">com.kodelabs.mycosts.provider</string>
+
     <string-array name="category_array">
         <item>Entertainment</item>
         <item>Equipment</item>

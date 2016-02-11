@@ -4,9 +4,9 @@ import com.kodelabs.mycosts.domain.executor.Executor;
 import com.kodelabs.mycosts.domain.executor.MainThread;
 import com.kodelabs.mycosts.domain.interactors.AddCostInteractor;
 import com.kodelabs.mycosts.domain.interactors.impl.AddCostInteractorImpl;
+import com.kodelabs.mycosts.domain.repository.CostRepository;
 import com.kodelabs.mycosts.presentation.presenters.AbstractPresenter;
 import com.kodelabs.mycosts.presentation.presenters.AddCostPresenter;
-import com.kodelabs.mycosts.storage.CostRepositoryImpl;
 
 import java.util.Date;
 
@@ -17,12 +17,13 @@ public class AddCostPresenterImpl extends AbstractPresenter implements AddCostPr
         AddCostInteractor.Callback {
 
     private AddCostPresenter.View mView;
+    private CostRepository        mCostRepository;
 
-    public AddCostPresenterImpl(Executor executor,
-                                MainThread mainThread,
-                                AddCostPresenter.View view) {
+    public AddCostPresenterImpl(Executor executor, MainThread mainThread,
+                                View view, CostRepository costRepository) {
         super(executor, mainThread);
         mView = view;
+        mCostRepository = costRepository;
     }
 
     @Override
@@ -30,7 +31,7 @@ public class AddCostPresenterImpl extends AbstractPresenter implements AddCostPr
         AddCostInteractor addCostInteractor = new AddCostInteractorImpl(mExecutor,
                 mMainThread,
                 this,
-                CostRepositoryImpl.getInstance(),
+                mCostRepository,
                 category,
                 description,
                 date,

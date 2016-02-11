@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.kodelabs.mycosts.threading.MainThreadImpl;
 import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.executor.impl.ThreadExecutor;
 import com.kodelabs.mycosts.domain.model.Cost;
@@ -22,6 +21,9 @@ import com.kodelabs.mycosts.presentation.model.DailyTotalCost;
 import com.kodelabs.mycosts.presentation.presenters.MainPresenter;
 import com.kodelabs.mycosts.presentation.presenters.impl.MainPresenterImpl;
 import com.kodelabs.mycosts.presentation.ui.adapters.CostItemAdapter;
+import com.kodelabs.mycosts.storage.CostRepositoryImpl;
+import com.kodelabs.mycosts.sync.auth.DummyAccountProvider;
+import com.kodelabs.mycosts.threading.MainThreadImpl;
 
 import java.util.List;
 
@@ -69,9 +71,17 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mMainPresenter = new MainPresenterImpl(ThreadExecutor.getInstance(),
-                MainThreadImpl.getInstance(), this);
+        // instantiate the presenter
+        mMainPresenter = new MainPresenterImpl(
+                ThreadExecutor.getInstance(),
+                MainThreadImpl.getInstance(),
+                this,
+                new CostRepositoryImpl(this)
+        );
 
+
+        // create a dummy account if it doesn't yet exist
+        DummyAccountProvider.CreateSyncAccount(this);
     }
 
     @Override

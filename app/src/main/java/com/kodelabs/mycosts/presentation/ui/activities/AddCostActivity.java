@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.kodelabs.mycosts.threading.MainThreadImpl;
 import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.executor.impl.ThreadExecutor;
 import com.kodelabs.mycosts.presentation.presenters.AddCostPresenter;
 import com.kodelabs.mycosts.presentation.presenters.impl.AddCostPresenterImpl;
+import com.kodelabs.mycosts.storage.CostRepositoryImpl;
+import com.kodelabs.mycosts.threading.MainThreadImpl;
 import com.kodelabs.mycosts.utils.DateUtils;
-
-import timber.log.Timber;
 
 public class AddCostActivity extends AbstractCostActivity
         implements AddCostPresenter.View {
@@ -26,13 +25,14 @@ public class AddCostActivity extends AbstractCostActivity
         mPresenter = new AddCostPresenterImpl(
                 ThreadExecutor.getInstance(),
                 MainThreadImpl.getInstance(),
-                this);
+                this,
+                new CostRepositoryImpl(this)
+        );
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Timber.w("ON RESUME ADDCOST");
 
         // default day should be today
         mSelectedDate = DateUtils.getToday();
