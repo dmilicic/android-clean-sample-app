@@ -94,6 +94,9 @@ public class CostRepositoryImpl implements CostRepository {
     @Override
     public void insert(Cost item) {
         com.kodelabs.mycosts.storage.model.Cost dbItem = StorageModelConverter.convertToStorageModel(item);
+
+        // mark as unsynced
+        dbItem.synced = false;
         dbItem.insert();
 
         triggerSync();
@@ -102,6 +105,9 @@ public class CostRepositoryImpl implements CostRepository {
     @Override
     public void update(Cost cost) {
         com.kodelabs.mycosts.storage.model.Cost dbItem = StorageModelConverter.convertToStorageModel(cost);
+
+        // mark as unsynced
+        dbItem.synced = false;
         dbItem.update();
 
         triggerSync();
@@ -124,6 +130,19 @@ public class CostRepositoryImpl implements CostRepository {
         List<com.kodelabs.mycosts.storage.model.Cost> costs = SQLite
                 .select()
                 .from(com.kodelabs.mycosts.storage.model.Cost.class)
+                .queryList();
+
+        return StorageModelConverter.convertListToDomainModel(costs);
+    }
+
+
+    @Override
+    public List<Cost> getAllUnsyncedCosts() {
+
+        List<com.kodelabs.mycosts.storage.model.Cost> costs = SQLite
+                .select()
+                .from(com.kodelabs.mycosts.storage.model.Cost.class)
+                .where(Cost_Table.synced.eq(false))
                 .queryList();
 
         return StorageModelConverter.convertListToDomainModel(costs);

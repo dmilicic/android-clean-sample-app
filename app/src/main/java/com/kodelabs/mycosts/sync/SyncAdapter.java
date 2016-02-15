@@ -59,25 +59,28 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider,
                               SyncResult syncResult) {
-        Timber.i("IT'S WORKING!");
+        Timber.i("STARTING SYNC...");
 
         // initialize the services we will use
         SyncService syncService = RestClient.getService(SyncService.class);
         CostRepository costRepository = new CostRepositoryImpl(mContext);
 
-        // sync everything we have
-        List<Cost> costs = costRepository.getAllCosts();
+        // TODO: get the real user's name
+        Payload payload = new Payload("default");
+
+        // get all unsynced data
+        List<Cost> costs = costRepository.getAllUnsyncedCosts();
         for (Cost cost : costs) {
 
             // convert to models suitable for transferring over network
             RESTCost restCost = RESTModelConverter.convertToRestModel(cost);
-            Payload payload = new Payload("default", restCost);
-
-            // run the upload
-            syncService.uploadData(payload)
-                    .enqueue(mResponseCallback);
-
-            break;
+            payload.addCost(restCost);
         }
+
+        // run the upload
+        syncService.uploadData(payload)
+                .enqueue(mResponseCallback);
+
+        // TODO: mark as synced
     }
 }

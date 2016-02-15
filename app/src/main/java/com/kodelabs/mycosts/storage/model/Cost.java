@@ -30,6 +30,9 @@ public class Cost extends BaseModel {
     @Column
     private double amount;
 
+    @Column
+    public boolean synced;
+
     public Cost() {
     }
 
@@ -43,6 +46,7 @@ public class Cost extends BaseModel {
         this.description = description;
         this.date = date;
         this.amount = amount;
+        this.synced = false;
     }
 
     public long getId() {
@@ -84,6 +88,7 @@ public class Cost extends BaseModel {
     public void setAmount(double amount) {
         this.amount = amount;
     }
+
 
     @Override
     public String toString() {
