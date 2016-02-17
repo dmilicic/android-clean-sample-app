@@ -1,16 +1,12 @@
 package com.kodelabs.mycosts.storage;
 
-import android.accounts.Account;
-import android.content.ContentResolver;
 import android.content.Context;
-import android.os.Bundle;
 
-import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.domain.repository.CostRepository;
 import com.kodelabs.mycosts.storage.converters.StorageModelConverter;
 import com.kodelabs.mycosts.storage.model.Cost_Table;
-import com.kodelabs.mycosts.utils.AuthUtils;
+import com.kodelabs.mycosts.sync.SyncAdapter;
 import com.kodelabs.mycosts.utils.DateUtils;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -74,22 +70,6 @@ public class CostRepositoryImpl implements CostRepository {
         mContext = context;
     }
 
-    /**
-     * This method will start a sync adapter that will upload data to the server.
-     */
-    private void triggerSync() {
-        // TODO sync adapter is forced for debugging purposes, remove this in production
-        // Pass the settings flags by inserting them in a bundle
-        Bundle settingsBundle = new Bundle();
-        settingsBundle.putBoolean(
-                ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        settingsBundle.putBoolean(
-                ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-
-        // request a sync using sync adapter
-        Account account = AuthUtils.getAccount(mContext);
-        ContentResolver.requestSync(account, mContext.getString(R.string.stub_content_authority), settingsBundle);
-    }
 
     @Override
     public void insert(Cost item) {
@@ -99,7 +79,7 @@ public class CostRepositoryImpl implements CostRepository {
         dbItem.synced = false;
         dbItem.insert();
 
-        triggerSync();
+        SyncAdapter.triggerSync(mContext);
     }
 
     @Override
@@ -110,7 +90,7 @@ public class CostRepositoryImpl implements CostRepository {
         dbItem.synced = false;
         dbItem.update();
 
-        triggerSync();
+        SyncAdapter.triggerSync(mContext);
     }
 
     @Override
@@ -149,10 +129,22 @@ public class CostRepositoryImpl implements CostRepository {
     }
 
     @Override
+    public void markSynced(List<Cost> costs) {
+        // we have to convert it to the database model before storing
+        List<com.kodelabs.mycosts.storage.model.Cost> unsyncedCosts =
+                StorageModelConverter.convertListToStorageModel(costs);
+
+        for (com.kodelabs.mycosts.storage.model.Cost cost : unsyncedCosts) {
+            cost.synced = true;
+            cost.update();
+        }
+    }
+
+    @Override
     public void delete(Cost cost) {
         com.kodelabs.mycosts.storage.model.Cost dbItem = StorageModelConverter.convertToStorageModel(cost);
         dbItem.delete();
 
-        triggerSync();
+        SyncAdapter.triggerSync(mContext);
     }
 }

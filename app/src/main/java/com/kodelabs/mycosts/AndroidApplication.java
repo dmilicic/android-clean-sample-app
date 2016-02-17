@@ -2,6 +2,7 @@ package com.kodelabs.mycosts;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 import timber.log.Timber;
@@ -20,6 +21,9 @@ public class AndroidApplication extends Application {
 
         // enable logging
         Timber.plant(new DebugTree());
+
+        // enable stetho
+        Stetho.initializeWithDefaults(this);
     }
 
 }

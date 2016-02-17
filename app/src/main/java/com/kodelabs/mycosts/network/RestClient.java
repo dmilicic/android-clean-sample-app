@@ -1,5 +1,7 @@
 package com.kodelabs.mycosts.network;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -15,7 +17,9 @@ public class RestClient {
     /**
      * This is our main backend/server URL.
      */
+//    public static final String REST_API_URL = "https://mycosts-app.herokuapp.com/";
     public static final String REST_API_URL = "http://192.168.0.12:3000";
+
 
     private static Retrofit s_retrofit;
 
@@ -27,6 +31,7 @@ public class RestClient {
 
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
+                .addNetworkInterceptor(new StethoInterceptor())
                 .build();
 
         s_retrofit = new Retrofit.Builder()

@@ -55,4 +55,19 @@ public class StorageModelConverter {
 
         return convertedCosts;
     }
+
+
+    public static List<Cost> convertListToStorageModel(List<com.kodelabs.mycosts.domain.model.Cost> costs) {
+        List<Cost> convertedCosts = new ArrayList<>();
+
+        for (com.kodelabs.mycosts.domain.model.Cost cost : costs) {
+            convertedCosts.add(convertToStorageModel(cost));
+        }
+
+        // cleanup
+        costs.clear();
+        costs = null;
+
+        return convertedCosts;
+    }
 }

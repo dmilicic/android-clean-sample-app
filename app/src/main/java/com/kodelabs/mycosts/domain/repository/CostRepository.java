@@ -19,5 +19,7 @@ public interface CostRepository {
 
     List<Cost> getAllUnsyncedCosts();
 
+    void markSynced(List<Cost> costs);
+
     void delete(Cost cost);
 }
