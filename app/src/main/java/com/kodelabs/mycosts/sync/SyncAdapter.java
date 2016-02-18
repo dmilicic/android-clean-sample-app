@@ -22,10 +22,6 @@ import com.kodelabs.mycosts.utils.AuthUtils;
 import java.io.IOException;
 import java.util.List;
 
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -87,16 +83,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         @Override
         public void onFailure(Call<Void> call, Throwable t) {
             Timber.e("UPLOAD FAIL");
-            Timber.e(t.getMessage());
             t.printStackTrace();
 
             // try to sync again
-            SyncAdapter.triggerSync(mContext);
+            SyncResult syncResult = new SyncResult();
         }
     };
 
     @Override
-
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider,
                               SyncResult syncResult) {
         Timber.i("STARTING SYNC...");
@@ -117,7 +111,22 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         }
 
         // run the upload
-        syncService.uploadData(payload)
-                .enqueue(mResponseCallback);
+        try {
+            Response<Void> response = syncService.uploadData(payload).execute();
+
+            Timber.i("UPLOAD SUCCESS: %d", response.code());
+
+            // everything went well, mark local cost items as synced
+            if (response.isSuccess()) {
+                mCostRepository.markSynced(mUnsyncedCosts);
+            }
+
+        } catch (IOException e) { // something went wrong
+            Timber.e("UPLOAD FAIL");
+            // make it a soft error so the framework does the exponential backoff
+            syncResult.stats.numIoExceptions += 1;
+
+            Timber.d("Restarting sync in %d seconds", syncResult.delayUntil);
+        }
     }
 }
