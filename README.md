@@ -42,7 +42,7 @@ You can read more about it in my [detailed guide].
 
 ### Syncing to backend
 
-There is a rails app I made that syncs all cost items to the server. You can find it here: https://mycosts-app.herokuapp.com/. This is a very simple app just to showcase the sync feature and its source code is open. Cost items are synced in real-time so you can see costs appearing on the website when you create them on Android. Editing and deleting are currently not supported.
+There is a rails app I made that syncs all cost items to the server. You can find it here: https://mycosts-app.herokuapp.com/. This is a very simple app just to showcase the sync feature and its [source code] is open. Cost items are synced in real-time so you can see costs appearing on the website when you create them on Android. Editing and deleting are currently not supported.
 
 ## Future improvements
 
