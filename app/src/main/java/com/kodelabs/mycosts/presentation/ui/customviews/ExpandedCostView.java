@@ -19,7 +19,7 @@ import com.kodelabs.mycosts.utils.DateUtils;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -27,13 +27,13 @@ import butterknife.ButterKnife;
  */
 public class ExpandedCostView extends CardView {
 
-    @Bind(R.id.cost_item_title)
+    @BindView(R.id.cost_item_title)
     TextView mTitle;
 
-    @Bind(R.id.cost_item_total_value)
+    @BindView(R.id.cost_item_total_value)
     TextView mValue;
 
-    @Bind(R.id.layout_individual_cost_items)
+    @BindView(R.id.layout_individual_cost_items)
     LinearLayout mLinearLayout;
 
     @Nullable
