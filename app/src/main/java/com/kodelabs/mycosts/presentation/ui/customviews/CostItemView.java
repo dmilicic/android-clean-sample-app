@@ -14,7 +14,7 @@ import com.kodelabs.mycosts.R;
 import com.kodelabs.mycosts.domain.model.Cost;
 import com.kodelabs.mycosts.presentation.ui.listeners.IndividualCostViewClickListener;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -23,16 +23,16 @@ import butterknife.OnClick;
  */
 public class CostItemView extends RelativeLayout implements OnMenuItemClickListener {
 
-    @Bind(R.id.cost_item_title)
+    @BindView(R.id.cost_item_title)
     TextView mCategoryView;
 
-    @Bind(R.id.cost_item_total_value)
+    @BindView(R.id.cost_item_total_value)
     TextView mValueView;
 
-    @Bind(R.id.cost_item_description)
+    @BindView(R.id.cost_item_description)
     TextView mDescriptionView;
 
-    @Bind(R.id.button_menu)
+    @BindView(R.id.button_menu)
     ImageButton mMenuButton;
 
     private IndividualCostViewClickListener mCostViewClickListener;

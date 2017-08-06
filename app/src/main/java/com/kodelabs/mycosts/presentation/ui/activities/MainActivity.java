@@ -27,7 +27,7 @@ import com.kodelabs.mycosts.threading.MainThreadImpl;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.codetail.widget.RevealFrameLayout;
 import timber.log.Timber;
@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
     public static final int EDIT_COST_REQUEST = 0;
 
-    @Bind(R.id.expenses_list)
+    @BindView(R.id.expenses_list)
     RecyclerView mRecyclerView;
 
-    @Bind(R.id.reveal_layout)
+    @BindView(R.id.reveal_layout)
     RevealFrameLayout mRevealLayout;
 
     private MainPresenter mMainPresenter;

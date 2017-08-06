@@ -21,7 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -30,85 +30,11 @@ import butterknife.ButterKnife;
 public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements RecyclerViewClickListener {
 
 
-    private enum ViewType {
-        CONTRACTED_CARD, EXPANDED_CARD
-    }
-
+    public final MainPresenter.View mView;
     private List<DailyTotalCost> mCostList;
-    private Context              mContext;
+    private Context mContext;
 
     private Set<Integer> mSelectedItems;
-
-    public final MainPresenter.View mView;
-
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        @Bind(R.id.cost_item_title)
-        public TextView mTitle;
-
-        @Bind(R.id.cost_item_total_value)
-        public TextView mTotalCost;
-
-        private RecyclerViewClickListener mListener;
-
-        public void setup(DailyTotalCost dailyTotalCost) {
-            Context context = mTitle.getContext();
-
-            final String dateText = DateUtils.dateToText(context, dailyTotalCost.getDate());
-            final String title = String.format(context.getString(R.string.total_expenses), dateText);
-            mTitle.setText(title);
-            mTotalCost.setText(String.valueOf(dailyTotalCost.getTotalCost()) + "$");
-        }
-
-        @Override
-        public void onClick(View v) {
-            mListener.onClickView(getAdapterPosition());
-        }
-
-        public ViewHolder(View v, final RecyclerViewClickListener listener) {
-            super(v);
-            ButterKnife.bind(this, v);
-            v.setOnClickListener(this);
-            mListener = listener;
-        }
-    }
-
-    public static class ExpandedViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener, IndividualCostViewClickListener {
-
-        @Bind(R.id.card_expanded_costview)
-        public ExpandedCostView mExpandedCostView;
-
-        private RecyclerViewClickListener mListener;
-
-        @Override
-        public void onClickDelete(long costId) {
-            mListener.onClickDelete(getAdapterPosition(), costId);
-        }
-
-        @Override
-        public void onClickEdit(long costId) {
-            mListener.onClickEdit(getAdapterPosition(), costId);
-        }
-
-        @Override
-        public void onClick(View v) {
-            mListener.onClickView(getAdapterPosition());
-        }
-
-        public ExpandedViewHolder(View v, final RecyclerViewClickListener listener) {
-            super(v);
-            ButterKnife.bind(this, v);
-            v.setOnClickListener(this);
-
-            // this listener is our adapter
-            mListener = listener;
-
-            // set a listener for edit, delete calls
-            mExpandedCostView.setIndividualCostViewClickListener(this);
-        }
-    }
-
 
     public CostItemAdapter(MainPresenter.View view, Context context) {
         mCostList = new ArrayList<>();
@@ -197,5 +123,77 @@ public class CostItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemCount() {
         return mCostList.size();
+    }
+
+    private enum ViewType {
+        CONTRACTED_CARD, EXPANDED_CARD
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        @BindView(R.id.cost_item_title)
+        public TextView mTitle;
+
+        @BindView(R.id.cost_item_total_value)
+        public TextView mTotalCost;
+
+        private RecyclerViewClickListener mListener;
+
+        public ViewHolder(View v, final RecyclerViewClickListener listener) {
+            super(v);
+            ButterKnife.bind(this, v);
+            v.setOnClickListener(this);
+            mListener = listener;
+        }
+
+        public void setup(DailyTotalCost dailyTotalCost) {
+            Context context = mTitle.getContext();
+
+            final String dateText = DateUtils.dateToText(context, dailyTotalCost.getDate());
+            final String title = String.format(context.getString(R.string.total_expenses), dateText);
+            mTitle.setText(title);
+            mTotalCost.setText(String.valueOf(dailyTotalCost.getTotalCost()) + "$");
+        }
+
+        @Override
+        public void onClick(View v) {
+            mListener.onClickView(getAdapterPosition());
+        }
+    }
+
+    public static class ExpandedViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener, IndividualCostViewClickListener {
+
+        @BindView(R.id.card_expanded_costview)
+        public ExpandedCostView mExpandedCostView;
+
+        private RecyclerViewClickListener mListener;
+
+        public ExpandedViewHolder(View v, final RecyclerViewClickListener listener) {
+            super(v);
+            ButterKnife.bind(this, v);
+            v.setOnClickListener(this);
+
+            // this listener is our adapter
+            mListener = listener;
+
+            // set a listener for edit, delete calls
+            mExpandedCostView.setIndividualCostViewClickListener(this);
+        }
+
+        @Override
+        public void onClickDelete(long costId) {
+            mListener.onClickDelete(getAdapterPosition(), costId);
+        }
+
+        @Override
+        public void onClickEdit(long costId) {
+            mListener.onClickEdit(getAdapterPosition(), costId);
+        }
+
+        @Override
+        public void onClick(View v) {
+            mListener.onClickView(getAdapterPosition());
+        }
     }
 }
