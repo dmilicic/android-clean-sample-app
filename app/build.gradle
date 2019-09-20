@@ -1,17 +1,24 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.neenbedankt.android-apt'
+//apply plugin: 'com.neenbedankt.android-apt'
 apply from: "${project.rootDir}/QA/quality.gradle"
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 28
+    buildToolsVersion "27.0.3"
 
     defaultConfig {
         applicationId "com.kodelabs.mycosts"
         minSdkVersion 15
-        targetSdkVersion 23
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath true
+            }
+        }
+
     }
     buildTypes {
         release {
@@ -25,36 +32,36 @@ def dbflow_version = "3.0.0-beta3"
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // general
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
-    compile 'com.jakewharton:butterknife:7.0.1'
-    compile 'com.jakewharton.timber:timber:4.1.0'
+    implementation 'com.android.support:appcompat-v7:+'
+    implementation 'com.android.support:design:+'
+    implementation 'com.jakewharton:butterknife:7.0.1'
+    implementation 'com.jakewharton.timber:timber:4.1.0'
 
     // inspection
-    compile 'com.facebook.stetho:stetho:1.3.0'
-    compile 'com.facebook.stetho:stetho-okhttp3:1.3.0'
+    implementation 'com.facebook.stetho:stetho:1.3.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.3.0'
 
     // network
-    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
-    compile 'com.squareup.retrofit2:converter-gson:+'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    implementation 'com.squareup.retrofit2:converter-gson:+'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.0.1'
 
     // database
-    apt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
 
     // material design
-    compile 'com.android.support:cardview-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
-    compile('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
+    implementation 'com.android.support:cardview-v7:+'
+    implementation 'com.android.support:recyclerview-v7:+'
+    implementation('com.github.ozodrukh:CircularReveal:1.1.1@aar') {
         transitive = true;
     }
 
     // tests
-    testCompile 'junit:junit:4.12'
-    testCompile "org.mockito:mockito-core:1.+"
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:1.+"
 }
